@@ -3,7 +3,8 @@
  * chip instead of stacking into a solid vertical bar. Works for native status
  * badges (Draft, Modified, ...) and, when installed, Fluent locale badges. */
 
-/* Vertical breathing room + rounded corners for every page-tree badge. */
+/* Vertical breathing room + rounded corners for every page-tree badge (the tree
+ * is where badges stack into a bar; the geometry only matters there). */
 .cms-content-tools .cms-tree.jstree span.badge {
     top: 3px !important;
     padding: 2px 7px !important;
@@ -12,9 +13,10 @@
     border-radius: 4px !important;
 }
 
-/* Native status badges already carry a tinted background + coloured text:
- * add a matching outline in that same colour (Fluent badges handled below). */
-.cms-content-tools .cms-tree.jstree span.badge[class*="status-"]:not(.fluent-badge) {
+/* Native status badges (Draft, Modified, ...) already carry a tinted background +
+ * coloured text — add a matching outline in that same colour, everywhere they
+ * appear (page list, edit-view tree, breadcrumbs). */
+.badge[class*="status-"]:not(.fluent-badge) {
     border: 1px solid currentColor !important;
 }
 
