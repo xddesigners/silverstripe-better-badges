@@ -19,6 +19,20 @@
     top: 3px !important;
 }
 
+/* Long page titles run under the absolutely-positioned badge. Fade the title into the
+ * panel background just before the badge — anchored to the badge so it tracks its
+ * width/position. var(--bs-body-bg) adapts to light/dark mode. */
+.cms-content-tools .cms-tree.jstree span.badge::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -26px;
+    width: 26px;
+    background: linear-gradient(to right, transparent, var(--bs-body-bg)) !important;
+    pointer-events: none;
+}
+
 /* Fluent adds an empty, text-less flag (status-fluentinvisible) only to carry a class
  * on the tree node (to dim its link); it renders as an empty badge span. Hide it so
  * the styling doesn't turn it into a stray empty chip. */
