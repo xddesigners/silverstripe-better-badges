@@ -32,21 +32,23 @@
     border: 1px solid currentColor !important;
 }
 
-/* Fluent locale badges are solid-filled — soften to a light tint + coloured text + outline. */
+/* Fluent locale badges are solid-filled — soften to a light tint + coloured text + outline.
+ * The tint is opaque (not rgba) so it still masks any page title that runs under the
+ * absolutely-positioned badge, exactly like the native solid badge does. */
 .badge.fluent-badge--default {
-    background: rgba(0, 138, 0, 0.12) !important;
+    background: #e0f1e0 !important;
     color: #0a6b0a !important;
     border: 1px solid #1a9a1a !important;
 }
 
 .badge.fluent-badge--localised {
-    background: rgba(102, 15, 242, 0.12) !important;
+    background: #ede2fd !important;
     color: #5212c9 !important;
     border: 1px solid #660ff2 !important;
 }
 
 .badge.fluent-badge--invisible {
-    background: rgba(155, 40, 40, 0.12) !important;
+    background: #f3e5e5 !important;
     color: #9b2828 !important;
     border: 1px solid #9b2828 !important;
 }
