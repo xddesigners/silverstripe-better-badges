@@ -1,0 +1,40 @@
+/* better-badges — "outline" style (default).
+ * Compact spacing plus a light outline treatment: every badge reads as its own
+ * chip instead of stacking into a solid vertical bar. Works for native status
+ * badges (Draft, Modified, ...) and, when installed, Fluent locale badges. */
+
+/* Vertical breathing room + rounded corners for every page-tree badge. */
+.cms-content-tools .cms-tree.jstree span.badge {
+    top: 3px !important;
+    padding: 2px 7px !important;
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    border-radius: 4px !important;
+}
+
+/* Native status badges already carry a tinted background + coloured text:
+ * add a matching outline in that same colour (Fluent badges handled below). */
+.cms-content-tools .cms-tree.jstree span.badge[class*="status-"]:not(.fluent-badge) {
+    border: 1px solid currentColor !important;
+}
+
+/* Fluent locale badges are solid-filled — soften to a light tint + coloured text
+ * + outline. Not tree-scoped, so the edit-view header/breadcrumb badge and the
+ * "visible in locales" gridfield column match too. */
+.badge.fluent-badge--default {
+    background: rgba(0, 138, 0, 0.12) !important;
+    color: #0a6b0a !important;
+    border: 1px solid #1a9a1a !important;
+}
+
+.badge.fluent-badge--localised {
+    background: rgba(102, 15, 242, 0.12) !important;
+    color: #5212c9 !important;
+    border: 1px solid #660ff2 !important;
+}
+
+.badge.fluent-badge--invisible {
+    background: rgba(155, 40, 40, 0.12) !important;
+    color: #9b2828 !important;
+    border: 1px solid #9b2828 !important;
+}

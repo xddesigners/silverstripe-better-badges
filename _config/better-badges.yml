@@ -1,0 +1,8 @@
+---
+Name: xd-better-badges
+---
+# Load the badge styling into the CMS. The extension picks the stylesheet that
+# matches the configured style (see XD\BetterBadges\BetterBadges::$style).
+SilverStripe\Admin\LeftAndMain:
+  extensions:
+    - XD\BetterBadges\Extension\LeftAndMainExtension
