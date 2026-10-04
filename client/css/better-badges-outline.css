@@ -1,28 +1,29 @@
 /* better-badges — "outline" style (default).
- * Compact spacing plus a light outline treatment: every badge reads as its own
- * chip instead of stacking into a solid vertical bar. Works for native status
- * badges (Draft, Modified, ...) and, when installed, Fluent locale badges. */
+ * Compact spacing + a light outline so every badge reads as its own chip instead of
+ * a solid vertical bar. Applies to native status badges (Draft, Modified, ...) and,
+ * when installed, Fluent locale badges — in all views. */
 
-/* Vertical breathing room + rounded corners for every page-tree badge (the tree
- * is where badges stack into a bar; the geometry only matters there). */
-.cms-content-tools .cms-tree.jstree span.badge {
-    top: 3px !important;
+/* Shape + size for every locale/status badge, everywhere it appears. */
+.badge.fluent-badge,
+.badge[class*="status-"] {
     padding: 2px 7px !important;
     font-size: 10px !important;
     line-height: 1.3 !important;
     border-radius: 4px !important;
 }
 
-/* Native status badges (Draft, Modified, ...) already carry a tinted background +
- * coloured text — add a matching outline in that same colour, everywhere they
- * appear (page list, edit-view tree, breadcrumbs). */
+/* Page-tree badges are absolutely positioned and touch — inset them to break the bar. */
+.cms-content-tools .cms-tree.jstree span.badge {
+    top: 3px !important;
+}
+
+/* Native status badges already carry a tinted background + coloured text — add a
+ * matching outline in that same colour. */
 .badge[class*="status-"]:not(.fluent-badge) {
     border: 1px solid currentColor !important;
 }
 
-/* Fluent locale badges are solid-filled — soften to a light tint + coloured text
- * + outline. Not tree-scoped, so the edit-view header/breadcrumb badge and the
- * "visible in locales" gridfield column match too. */
+/* Fluent locale badges are solid-filled — soften to a light tint + coloured text + outline. */
 .badge.fluent-badge--default {
     background: rgba(0, 138, 0, 0.12) !important;
     color: #0a6b0a !important;
