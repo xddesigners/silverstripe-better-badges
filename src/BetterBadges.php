@@ -30,8 +30,9 @@ class BetterBadges
      * Badge style loaded into the CMS. One of:
      *  - 'outline' (default): compact + a light outline treatment, every state softened
      *     so native status badges and Fluent locale badges read on their own row.
+     *  - 'outline-pill': the outline treatment with fully rounded pill badges.
      *  - 'compact': compact rounded rectangle, keeps the native solid fills.
-     *  - 'pill': compact, fully rounded.
+     *  - 'pill': compact, fully rounded, keeps the native solid fills.
      *
      * An unknown value falls back to 'outline'.
      *
@@ -44,6 +45,7 @@ class BetterBadges
      */
     private const STYLES = [
         'outline' => 'xddesigners/silverstripe-better-badges:client/css/better-badges-outline.css',
+        'outline-pill' => 'xddesigners/silverstripe-better-badges:client/css/better-badges-outline-pill.css',
         'compact' => 'xddesigners/silverstripe-better-badges:client/css/better-badges-compact.css',
         'pill' => 'xddesigners/silverstripe-better-badges:client/css/better-badges-pill.css',
     ];

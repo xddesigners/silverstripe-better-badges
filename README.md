@@ -6,7 +6,8 @@ By default Silverstripe renders the page-tree badges (`Draft`, `Modified`, and â
 [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent) â€” the locale badges)
 absolutely positioned and touching, so down a longer tree they read as one continuous
 coloured bar instead of a per-row status. This module gives them a little vertical
-breathing room and a choice of styles.
+breathing room and a choice of styles, consistently across the page tree, the edit-view
+header/breadcrumb and the list/gridfield views.
 
 ![Badge styling options](docs/images/overview.png)
 
@@ -33,7 +34,7 @@ Pick a style (default `outline`). In YAML:
 
 ```yaml
 XD\BetterBadges\BetterBadges:
-  style: outline   # outline | compact | pill
+  style: outline   # outline | outline-pill | compact | pill
 ```
 
 Or in `app/_config.php`:
@@ -47,13 +48,14 @@ Config::modify()->set(BetterBadges::class, 'style', 'pill');
 
 ### Styles
 
-| Style     | Looks like                                                                 |
-| --------- | -------------------------------------------------------------------------- |
-| `outline` | **Default.** Compact + a light outline; every state softened to a tinted chip with a coloured border. |
-| `compact` | Compact rounded rectangle, keeps the native solid fills.                   |
-| `pill`    | Compact, fully rounded.                                                    |
+| Style          | Looks like                                                                                      |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| `outline`      | **Default.** Compact + a light outline; every state softened to a tinted chip with a coloured border. |
+| `outline-pill` | The outline treatment with fully rounded pill badges.                                           |
+| `compact`      | Compact rounded rectangle, keeps the native solid fills.                                         |
+| `pill`         | Compact, fully rounded, keeps the native solid fills.                                            |
 
-All three add the vertical spacing that breaks up the bar; they only differ in the look.
+All styles add the vertical spacing that breaks up the bar; they only differ in the look.
 
 ## License
 
