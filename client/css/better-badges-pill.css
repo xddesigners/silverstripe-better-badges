@@ -16,3 +16,10 @@
 .cms-content-tools .cms-tree.jstree span.badge {
     top: 3px !important;
 }
+
+/* Fluent adds an empty, text-less flag (status-fluentinvisible) only to carry a class
+ * on the tree node (to dim its link); it renders as an empty badge span. Hide it so
+ * the styling doesn't turn it into a stray empty chip. */
+.badge[class*="status-"]:empty {
+    display: none !important;
+}
