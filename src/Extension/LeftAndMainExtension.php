@@ -15,6 +15,9 @@ class LeftAndMainExtension extends Extension
 {
     protected function onAfterInit(): void
     {
-        Requirements::css(BetterBadges::stylesheet());
+        $stylesheet = BetterBadges::stylesheet();
+        if ($stylesheet !== '') {
+            Requirements::css($stylesheet);
+        }
     }
 }

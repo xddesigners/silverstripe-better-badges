@@ -34,7 +34,7 @@ Pick a style (default `outline`). In YAML:
 
 ```yaml
 XD\BetterBadges\BetterBadges:
-  style: outline   # outline | outline-pill | compact | pill
+  style: outline   # outline | outline-pill | compact | pill | off
 ```
 
 Or in `app/_config.php`:
@@ -54,8 +54,23 @@ Config::modify()->set(BetterBadges::class, 'style', 'pill');
 | `outline-pill` | The outline treatment with fully rounded pill badges.                                           |
 | `compact`      | Compact rounded rectangle, keeps the native solid fills.                                         |
 | `pill`         | Compact, fully rounded, keeps the native solid fills.                                            |
+| `off`          | Alias `none`. **Disabled** — loads no stylesheet; the CMS badges stay exactly as Silverstripe renders them (the first panel above). |
 
-All styles add the vertical spacing that breaks up the bar; they only differ in the look.
+Every style except `off` adds the vertical spacing that breaks up the bar; they only differ in
+the look. `off` leaves the native badges completely untouched — useful to compare, or to disable
+the module on a specific environment (see below).
+
+## Environment override
+
+The style can also be set from `.env`, which **takes precedence over the YAML/PHP config**. This is
+handy to override it per environment — e.g. turn the module off on one site — without changing config:
+
+```
+SS_BETTER_BADGES_STYLE="off"
+```
+
+Any value works (`outline`, `pill`, `off`, …). When the variable is set it wins; otherwise the
+`style` config is used.
 
 ## License
 
