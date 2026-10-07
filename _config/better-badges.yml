@@ -6,3 +6,15 @@ Name: xd-better-badges
 SilverStripe\Admin\LeftAndMain:
   extensions:
     - XD\BetterBadges\Extension\LeftAndMainExtension
+---
+Name: xd-better-badges-locale-flags
+# Only when Fluent is installed, and after Fluent's SiteTree extension so its locale status
+# flags exist in $flags for us to decorate (see SiteTreeLocaleFlagExtension).
+Only:
+  moduleexists: tractorcow/silverstripe-fluent
+After:
+  - '#fluentcms-pages'
+---
+SilverStripe\CMS\Model\SiteTree:
+  extensions:
+    - XD\BetterBadges\Extension\SiteTreeLocaleFlagExtension

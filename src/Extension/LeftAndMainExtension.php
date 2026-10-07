@@ -19,5 +19,10 @@ class LeftAndMainExtension extends Extension
         if ($stylesheet !== '') {
             Requirements::css($stylesheet);
         }
+
+        // Locale flags (opt-in) render via their own stylesheet, independent of the chosen style.
+        if (BetterBadges::localeFlagsEnabled()) {
+            Requirements::css(BetterBadges::localeFlagStylesheet());
+        }
     }
 }

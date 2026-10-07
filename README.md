@@ -72,6 +72,41 @@ SS_BETTER_BADGES_STYLE="off"
 Any value works (`outline`, `pill`, `off`, …). When the variable is set it wins; otherwise the
 `style` config is used.
 
+## Locale flags
+
+With [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent) installed, Better Badges can show
+a small **country flag** inside each locale badge — derived from the locale's region, with the `xx_YY`
+code kept beside it. It's **opt-in** and off by default. Enable it in YAML:
+
+```yaml
+XD\BetterBadges\BetterBadges:
+  locale_flags: true
+```
+
+…or per environment from `.env` (takes precedence over the config):
+
+```
+SS_BETTER_BADGES_LOCALE_FLAGS="1"
+```
+
+![Locale flags in each badge style](docs/images/overview-flags.png)
+
+The flag shape follows the badge style: a **circle** on the rounded `pill` / `outline-pill` styles, a
+tiny-rounded **square** on the others. Flags are [flag-icons](https://github.com/lipis/flag-icons) SVGs
+(MIT — see `client/flags/FLAG-ICONS-LICENSE.txt`), bundled, so any locale works offline.
+
+Options:
+
+| Config | Default | Does |
+| --- | --- | --- |
+| `locale_flags` | `false` | Turn flags on. (Or `SS_BETTER_BADGES_LOCALE_FLAGS` in `.env`.) |
+| `locale_flags_shape` | `auto` | `auto` (circle for pill styles, square otherwise), or force `circle` / `square`. |
+| `locale_flags_hide_code` | `false` | Show only the flag, hiding the `xx_YY` code. |
+| `locale_flags_map` | `[]` | Override the flag per locale or language, e.g. `{ en: gb, en_US: us, eu: eu }`. |
+
+The region is taken from the locale (`en_GB` → `gb`); language-only locales (`en`) or non-country
+subtags (`zh_Hans`) show no flag unless mapped.
+
 ## License
 
 BSD-3-Clause.

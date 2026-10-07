@@ -1,0 +1,331 @@
+/* better-badges — locale flags (opt-in).
+ *
+ * Enabled via `BetterBadges.locale_flags: true` (YAML) or `SS_BETTER_BADGES_LOCALE_FLAGS` (.env).
+ * A small circular country flag is shown on the LEFT inside each Fluent locale badge, with the
+ * locale code kept beside it. The flag comes from a `bb-flag bb-flag-{cc}` class stamped onto the
+ * badge server-side (XD\BetterBadges\Extension\SiteTreeLocaleFlagExtension); this file renders it.
+ *
+ * Flags: flag-icons 1x1 (square) SVGs cropped to a circle (MIT — see flags/FLAG-ICONS-LICENSE.txt).
+ * The Fluent badge is a `span.badge` in both the page list and the edit-view tree, so one selector
+ * covers both. Loaded in addition to the chosen style; designed for the pill styles.
+ */
+
+/* The flag is an ABSOLUTELY-positioned ::before inside the badge, vertically centred (top:50%) so the
+   margin around it is equal top / bottom, with a matching left inset. It needs a positioning context:
+   in the page TREE the CMS already positions badges `absolute`, so we only make the OTHER surfaces
+   (list / header) relative, and keep the tree's own absolute positioning. Individual background-* props
+   (not the shorthand) so the per-country rule below only sets the image. */
+.badge.fluent-badge.bb-flag {
+    position: relative;
+    padding-left: 17px !important;   /* reserve room: left inset (3) + flag (10) + gap (4) */
+}
+/* Keep the CMS page tree's absolute badge positioning (our `position: relative` above would break it). */
+.jstree span.badge.fluent-badge.bb-flag,
+.cms-tree span.badge.fluent-badge.bb-flag {
+    position: absolute;
+}
+.badge.fluent-badge.bb-flag::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    /* 10px fits within the badge's line box so the flag never makes the badge taller than a plain one. */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Square variant: a square flag with subtle tiny rounded corners instead of a circle. Applied on the
+   non-pill styles (and when locale_flags_shape = 'square'); see BetterBadges::localeFlagSquare(). */
+.badge.fluent-badge.bb-flag.bb-flag-square::before {
+    border-radius: 2px;
+}
+
+/* Flag-only (BetterBadges.locale_flags_hide_code = true): hide the code, keep just the (centred) flag. */
+.badge.fluent-badge.bb-flag.bb-flag-nocode {
+    font-size: 0 !important;
+    padding: 0 !important;
+    width: 16px;
+    min-width: 16px;
+}
+.badge.fluent-badge.bb-flag.bb-flag-nocode::before {
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ---- per-country flag images (flag-icons 1x1) — generated, one per bundled SVG ---- */
+.bb-flag-ad::before{background-image:url(../flags/1x1/ad.svg)}
+.bb-flag-ae::before{background-image:url(../flags/1x1/ae.svg)}
+.bb-flag-af::before{background-image:url(../flags/1x1/af.svg)}
+.bb-flag-ag::before{background-image:url(../flags/1x1/ag.svg)}
+.bb-flag-ai::before{background-image:url(../flags/1x1/ai.svg)}
+.bb-flag-al::before{background-image:url(../flags/1x1/al.svg)}
+.bb-flag-am::before{background-image:url(../flags/1x1/am.svg)}
+.bb-flag-ao::before{background-image:url(../flags/1x1/ao.svg)}
+.bb-flag-aq::before{background-image:url(../flags/1x1/aq.svg)}
+.bb-flag-ar::before{background-image:url(../flags/1x1/ar.svg)}
+.bb-flag-arab::before{background-image:url(../flags/1x1/arab.svg)}
+.bb-flag-as::before{background-image:url(../flags/1x1/as.svg)}
+.bb-flag-at::before{background-image:url(../flags/1x1/at.svg)}
+.bb-flag-au::before{background-image:url(../flags/1x1/au.svg)}
+.bb-flag-aw::before{background-image:url(../flags/1x1/aw.svg)}
+.bb-flag-ax::before{background-image:url(../flags/1x1/ax.svg)}
+.bb-flag-az::before{background-image:url(../flags/1x1/az.svg)}
+.bb-flag-ba::before{background-image:url(../flags/1x1/ba.svg)}
+.bb-flag-bb::before{background-image:url(../flags/1x1/bb.svg)}
+.bb-flag-bd::before{background-image:url(../flags/1x1/bd.svg)}
+.bb-flag-be::before{background-image:url(../flags/1x1/be.svg)}
+.bb-flag-bf::before{background-image:url(../flags/1x1/bf.svg)}
+.bb-flag-bg::before{background-image:url(../flags/1x1/bg.svg)}
+.bb-flag-bh::before{background-image:url(../flags/1x1/bh.svg)}
+.bb-flag-bi::before{background-image:url(../flags/1x1/bi.svg)}
+.bb-flag-bj::before{background-image:url(../flags/1x1/bj.svg)}
+.bb-flag-bl::before{background-image:url(../flags/1x1/bl.svg)}
+.bb-flag-bm::before{background-image:url(../flags/1x1/bm.svg)}
+.bb-flag-bn::before{background-image:url(../flags/1x1/bn.svg)}
+.bb-flag-bo::before{background-image:url(../flags/1x1/bo.svg)}
+.bb-flag-bq::before{background-image:url(../flags/1x1/bq.svg)}
+.bb-flag-br::before{background-image:url(../flags/1x1/br.svg)}
+.bb-flag-bs::before{background-image:url(../flags/1x1/bs.svg)}
+.bb-flag-bt::before{background-image:url(../flags/1x1/bt.svg)}
+.bb-flag-bv::before{background-image:url(../flags/1x1/bv.svg)}
+.bb-flag-bw::before{background-image:url(../flags/1x1/bw.svg)}
+.bb-flag-by::before{background-image:url(../flags/1x1/by.svg)}
+.bb-flag-bz::before{background-image:url(../flags/1x1/bz.svg)}
+.bb-flag-ca::before{background-image:url(../flags/1x1/ca.svg)}
+.bb-flag-cc::before{background-image:url(../flags/1x1/cc.svg)}
+.bb-flag-cd::before{background-image:url(../flags/1x1/cd.svg)}
+.bb-flag-cefta::before{background-image:url(../flags/1x1/cefta.svg)}
+.bb-flag-cf::before{background-image:url(../flags/1x1/cf.svg)}
+.bb-flag-cg::before{background-image:url(../flags/1x1/cg.svg)}
+.bb-flag-ch::before{background-image:url(../flags/1x1/ch.svg)}
+.bb-flag-ci::before{background-image:url(../flags/1x1/ci.svg)}
+.bb-flag-ck::before{background-image:url(../flags/1x1/ck.svg)}
+.bb-flag-cl::before{background-image:url(../flags/1x1/cl.svg)}
+.bb-flag-cm::before{background-image:url(../flags/1x1/cm.svg)}
+.bb-flag-cn::before{background-image:url(../flags/1x1/cn.svg)}
+.bb-flag-co::before{background-image:url(../flags/1x1/co.svg)}
+.bb-flag-cp::before{background-image:url(../flags/1x1/cp.svg)}
+.bb-flag-cr::before{background-image:url(../flags/1x1/cr.svg)}
+.bb-flag-cu::before{background-image:url(../flags/1x1/cu.svg)}
+.bb-flag-cv::before{background-image:url(../flags/1x1/cv.svg)}
+.bb-flag-cw::before{background-image:url(../flags/1x1/cw.svg)}
+.bb-flag-cx::before{background-image:url(../flags/1x1/cx.svg)}
+.bb-flag-cy::before{background-image:url(../flags/1x1/cy.svg)}
+.bb-flag-cz::before{background-image:url(../flags/1x1/cz.svg)}
+.bb-flag-de::before{background-image:url(../flags/1x1/de.svg)}
+.bb-flag-dg::before{background-image:url(../flags/1x1/dg.svg)}
+.bb-flag-dj::before{background-image:url(../flags/1x1/dj.svg)}
+.bb-flag-dk::before{background-image:url(../flags/1x1/dk.svg)}
+.bb-flag-dm::before{background-image:url(../flags/1x1/dm.svg)}
+.bb-flag-do::before{background-image:url(../flags/1x1/do.svg)}
+.bb-flag-dz::before{background-image:url(../flags/1x1/dz.svg)}
+.bb-flag-eac::before{background-image:url(../flags/1x1/eac.svg)}
+.bb-flag-ec::before{background-image:url(../flags/1x1/ec.svg)}
+.bb-flag-ee::before{background-image:url(../flags/1x1/ee.svg)}
+.bb-flag-eg::before{background-image:url(../flags/1x1/eg.svg)}
+.bb-flag-eh::before{background-image:url(../flags/1x1/eh.svg)}
+.bb-flag-er::before{background-image:url(../flags/1x1/er.svg)}
+.bb-flag-es-ct::before{background-image:url(../flags/1x1/es-ct.svg)}
+.bb-flag-es-ga::before{background-image:url(../flags/1x1/es-ga.svg)}
+.bb-flag-es-pv::before{background-image:url(../flags/1x1/es-pv.svg)}
+.bb-flag-es::before{background-image:url(../flags/1x1/es.svg)}
+.bb-flag-et::before{background-image:url(../flags/1x1/et.svg)}
+.bb-flag-eu::before{background-image:url(../flags/1x1/eu.svg)}
+.bb-flag-fi::before{background-image:url(../flags/1x1/fi.svg)}
+.bb-flag-fj::before{background-image:url(../flags/1x1/fj.svg)}
+.bb-flag-fk::before{background-image:url(../flags/1x1/fk.svg)}
+.bb-flag-fm::before{background-image:url(../flags/1x1/fm.svg)}
+.bb-flag-fo::before{background-image:url(../flags/1x1/fo.svg)}
+.bb-flag-fr::before{background-image:url(../flags/1x1/fr.svg)}
+.bb-flag-ga::before{background-image:url(../flags/1x1/ga.svg)}
+.bb-flag-gb-eng::before{background-image:url(../flags/1x1/gb-eng.svg)}
+.bb-flag-gb-nir::before{background-image:url(../flags/1x1/gb-nir.svg)}
+.bb-flag-gb-sct::before{background-image:url(../flags/1x1/gb-sct.svg)}
+.bb-flag-gb-wls::before{background-image:url(../flags/1x1/gb-wls.svg)}
+.bb-flag-gb::before{background-image:url(../flags/1x1/gb.svg)}
+.bb-flag-gd::before{background-image:url(../flags/1x1/gd.svg)}
+.bb-flag-ge::before{background-image:url(../flags/1x1/ge.svg)}
+.bb-flag-gf::before{background-image:url(../flags/1x1/gf.svg)}
+.bb-flag-gg::before{background-image:url(../flags/1x1/gg.svg)}
+.bb-flag-gh::before{background-image:url(../flags/1x1/gh.svg)}
+.bb-flag-gi::before{background-image:url(../flags/1x1/gi.svg)}
+.bb-flag-gl::before{background-image:url(../flags/1x1/gl.svg)}
+.bb-flag-gm::before{background-image:url(../flags/1x1/gm.svg)}
+.bb-flag-gn::before{background-image:url(../flags/1x1/gn.svg)}
+.bb-flag-gp::before{background-image:url(../flags/1x1/gp.svg)}
+.bb-flag-gq::before{background-image:url(../flags/1x1/gq.svg)}
+.bb-flag-gr::before{background-image:url(../flags/1x1/gr.svg)}
+.bb-flag-gs::before{background-image:url(../flags/1x1/gs.svg)}
+.bb-flag-gt::before{background-image:url(../flags/1x1/gt.svg)}
+.bb-flag-gu::before{background-image:url(../flags/1x1/gu.svg)}
+.bb-flag-gw::before{background-image:url(../flags/1x1/gw.svg)}
+.bb-flag-gy::before{background-image:url(../flags/1x1/gy.svg)}
+.bb-flag-hk::before{background-image:url(../flags/1x1/hk.svg)}
+.bb-flag-hm::before{background-image:url(../flags/1x1/hm.svg)}
+.bb-flag-hn::before{background-image:url(../flags/1x1/hn.svg)}
+.bb-flag-hr::before{background-image:url(../flags/1x1/hr.svg)}
+.bb-flag-ht::before{background-image:url(../flags/1x1/ht.svg)}
+.bb-flag-hu::before{background-image:url(../flags/1x1/hu.svg)}
+.bb-flag-ic::before{background-image:url(../flags/1x1/ic.svg)}
+.bb-flag-id::before{background-image:url(../flags/1x1/id.svg)}
+.bb-flag-ie::before{background-image:url(../flags/1x1/ie.svg)}
+.bb-flag-il::before{background-image:url(../flags/1x1/il.svg)}
+.bb-flag-im::before{background-image:url(../flags/1x1/im.svg)}
+.bb-flag-in::before{background-image:url(../flags/1x1/in.svg)}
+.bb-flag-io::before{background-image:url(../flags/1x1/io.svg)}
+.bb-flag-iq::before{background-image:url(../flags/1x1/iq.svg)}
+.bb-flag-ir::before{background-image:url(../flags/1x1/ir.svg)}
+.bb-flag-is::before{background-image:url(../flags/1x1/is.svg)}
+.bb-flag-it::before{background-image:url(../flags/1x1/it.svg)}
+.bb-flag-je::before{background-image:url(../flags/1x1/je.svg)}
+.bb-flag-jm::before{background-image:url(../flags/1x1/jm.svg)}
+.bb-flag-jo::before{background-image:url(../flags/1x1/jo.svg)}
+.bb-flag-jp::before{background-image:url(../flags/1x1/jp.svg)}
+.bb-flag-ke::before{background-image:url(../flags/1x1/ke.svg)}
+.bb-flag-kg::before{background-image:url(../flags/1x1/kg.svg)}
+.bb-flag-kh::before{background-image:url(../flags/1x1/kh.svg)}
+.bb-flag-ki::before{background-image:url(../flags/1x1/ki.svg)}
+.bb-flag-km::before{background-image:url(../flags/1x1/km.svg)}
+.bb-flag-kn::before{background-image:url(../flags/1x1/kn.svg)}
+.bb-flag-kp::before{background-image:url(../flags/1x1/kp.svg)}
+.bb-flag-kr::before{background-image:url(../flags/1x1/kr.svg)}
+.bb-flag-kw::before{background-image:url(../flags/1x1/kw.svg)}
+.bb-flag-ky::before{background-image:url(../flags/1x1/ky.svg)}
+.bb-flag-kz::before{background-image:url(../flags/1x1/kz.svg)}
+.bb-flag-la::before{background-image:url(../flags/1x1/la.svg)}
+.bb-flag-lb::before{background-image:url(../flags/1x1/lb.svg)}
+.bb-flag-lc::before{background-image:url(../flags/1x1/lc.svg)}
+.bb-flag-li::before{background-image:url(../flags/1x1/li.svg)}
+.bb-flag-lk::before{background-image:url(../flags/1x1/lk.svg)}
+.bb-flag-lr::before{background-image:url(../flags/1x1/lr.svg)}
+.bb-flag-ls::before{background-image:url(../flags/1x1/ls.svg)}
+.bb-flag-lt::before{background-image:url(../flags/1x1/lt.svg)}
+.bb-flag-lu::before{background-image:url(../flags/1x1/lu.svg)}
+.bb-flag-lv::before{background-image:url(../flags/1x1/lv.svg)}
+.bb-flag-ly::before{background-image:url(../flags/1x1/ly.svg)}
+.bb-flag-ma::before{background-image:url(../flags/1x1/ma.svg)}
+.bb-flag-mc::before{background-image:url(../flags/1x1/mc.svg)}
+.bb-flag-md::before{background-image:url(../flags/1x1/md.svg)}
+.bb-flag-me::before{background-image:url(../flags/1x1/me.svg)}
+.bb-flag-mf::before{background-image:url(../flags/1x1/mf.svg)}
+.bb-flag-mg::before{background-image:url(../flags/1x1/mg.svg)}
+.bb-flag-mh::before{background-image:url(../flags/1x1/mh.svg)}
+.bb-flag-mk::before{background-image:url(../flags/1x1/mk.svg)}
+.bb-flag-ml::before{background-image:url(../flags/1x1/ml.svg)}
+.bb-flag-mm::before{background-image:url(../flags/1x1/mm.svg)}
+.bb-flag-mn::before{background-image:url(../flags/1x1/mn.svg)}
+.bb-flag-mo::before{background-image:url(../flags/1x1/mo.svg)}
+.bb-flag-mp::before{background-image:url(../flags/1x1/mp.svg)}
+.bb-flag-mq::before{background-image:url(../flags/1x1/mq.svg)}
+.bb-flag-mr::before{background-image:url(../flags/1x1/mr.svg)}
+.bb-flag-ms::before{background-image:url(../flags/1x1/ms.svg)}
+.bb-flag-mt::before{background-image:url(../flags/1x1/mt.svg)}
+.bb-flag-mu::before{background-image:url(../flags/1x1/mu.svg)}
+.bb-flag-mv::before{background-image:url(../flags/1x1/mv.svg)}
+.bb-flag-mw::before{background-image:url(../flags/1x1/mw.svg)}
+.bb-flag-mx::before{background-image:url(../flags/1x1/mx.svg)}
+.bb-flag-my::before{background-image:url(../flags/1x1/my.svg)}
+.bb-flag-mz::before{background-image:url(../flags/1x1/mz.svg)}
+.bb-flag-na::before{background-image:url(../flags/1x1/na.svg)}
+.bb-flag-nc::before{background-image:url(../flags/1x1/nc.svg)}
+.bb-flag-ne::before{background-image:url(../flags/1x1/ne.svg)}
+.bb-flag-nf::before{background-image:url(../flags/1x1/nf.svg)}
+.bb-flag-ng::before{background-image:url(../flags/1x1/ng.svg)}
+.bb-flag-ni::before{background-image:url(../flags/1x1/ni.svg)}
+.bb-flag-nl::before{background-image:url(../flags/1x1/nl.svg)}
+.bb-flag-no::before{background-image:url(../flags/1x1/no.svg)}
+.bb-flag-np::before{background-image:url(../flags/1x1/np.svg)}
+.bb-flag-nr::before{background-image:url(../flags/1x1/nr.svg)}
+.bb-flag-nu::before{background-image:url(../flags/1x1/nu.svg)}
+.bb-flag-nz::before{background-image:url(../flags/1x1/nz.svg)}
+.bb-flag-om::before{background-image:url(../flags/1x1/om.svg)}
+.bb-flag-pa::before{background-image:url(../flags/1x1/pa.svg)}
+.bb-flag-pc::before{background-image:url(../flags/1x1/pc.svg)}
+.bb-flag-pe::before{background-image:url(../flags/1x1/pe.svg)}
+.bb-flag-pf::before{background-image:url(../flags/1x1/pf.svg)}
+.bb-flag-pg::before{background-image:url(../flags/1x1/pg.svg)}
+.bb-flag-ph::before{background-image:url(../flags/1x1/ph.svg)}
+.bb-flag-pk::before{background-image:url(../flags/1x1/pk.svg)}
+.bb-flag-pl::before{background-image:url(../flags/1x1/pl.svg)}
+.bb-flag-pm::before{background-image:url(../flags/1x1/pm.svg)}
+.bb-flag-pn::before{background-image:url(../flags/1x1/pn.svg)}
+.bb-flag-pr::before{background-image:url(../flags/1x1/pr.svg)}
+.bb-flag-ps::before{background-image:url(../flags/1x1/ps.svg)}
+.bb-flag-pt::before{background-image:url(../flags/1x1/pt.svg)}
+.bb-flag-pw::before{background-image:url(../flags/1x1/pw.svg)}
+.bb-flag-py::before{background-image:url(../flags/1x1/py.svg)}
+.bb-flag-qa::before{background-image:url(../flags/1x1/qa.svg)}
+.bb-flag-re::before{background-image:url(../flags/1x1/re.svg)}
+.bb-flag-ro::before{background-image:url(../flags/1x1/ro.svg)}
+.bb-flag-rs::before{background-image:url(../flags/1x1/rs.svg)}
+.bb-flag-ru::before{background-image:url(../flags/1x1/ru.svg)}
+.bb-flag-rw::before{background-image:url(../flags/1x1/rw.svg)}
+.bb-flag-sa::before{background-image:url(../flags/1x1/sa.svg)}
+.bb-flag-sb::before{background-image:url(../flags/1x1/sb.svg)}
+.bb-flag-sc::before{background-image:url(../flags/1x1/sc.svg)}
+.bb-flag-sd::before{background-image:url(../flags/1x1/sd.svg)}
+.bb-flag-se::before{background-image:url(../flags/1x1/se.svg)}
+.bb-flag-sg::before{background-image:url(../flags/1x1/sg.svg)}
+.bb-flag-sh-ac::before{background-image:url(../flags/1x1/sh-ac.svg)}
+.bb-flag-sh-hl::before{background-image:url(../flags/1x1/sh-hl.svg)}
+.bb-flag-sh-ta::before{background-image:url(../flags/1x1/sh-ta.svg)}
+.bb-flag-sh::before{background-image:url(../flags/1x1/sh.svg)}
+.bb-flag-si::before{background-image:url(../flags/1x1/si.svg)}
+.bb-flag-sj::before{background-image:url(../flags/1x1/sj.svg)}
+.bb-flag-sk::before{background-image:url(../flags/1x1/sk.svg)}
+.bb-flag-sl::before{background-image:url(../flags/1x1/sl.svg)}
+.bb-flag-sm::before{background-image:url(../flags/1x1/sm.svg)}
+.bb-flag-sn::before{background-image:url(../flags/1x1/sn.svg)}
+.bb-flag-so::before{background-image:url(../flags/1x1/so.svg)}
+.bb-flag-sr::before{background-image:url(../flags/1x1/sr.svg)}
+.bb-flag-ss::before{background-image:url(../flags/1x1/ss.svg)}
+.bb-flag-st::before{background-image:url(../flags/1x1/st.svg)}
+.bb-flag-sv::before{background-image:url(../flags/1x1/sv.svg)}
+.bb-flag-sx::before{background-image:url(../flags/1x1/sx.svg)}
+.bb-flag-sy::before{background-image:url(../flags/1x1/sy.svg)}
+.bb-flag-sz::before{background-image:url(../flags/1x1/sz.svg)}
+.bb-flag-tc::before{background-image:url(../flags/1x1/tc.svg)}
+.bb-flag-td::before{background-image:url(../flags/1x1/td.svg)}
+.bb-flag-tf::before{background-image:url(../flags/1x1/tf.svg)}
+.bb-flag-tg::before{background-image:url(../flags/1x1/tg.svg)}
+.bb-flag-th::before{background-image:url(../flags/1x1/th.svg)}
+.bb-flag-tj::before{background-image:url(../flags/1x1/tj.svg)}
+.bb-flag-tk::before{background-image:url(../flags/1x1/tk.svg)}
+.bb-flag-tl::before{background-image:url(../flags/1x1/tl.svg)}
+.bb-flag-tm::before{background-image:url(../flags/1x1/tm.svg)}
+.bb-flag-tn::before{background-image:url(../flags/1x1/tn.svg)}
+.bb-flag-to::before{background-image:url(../flags/1x1/to.svg)}
+.bb-flag-tr::before{background-image:url(../flags/1x1/tr.svg)}
+.bb-flag-tt::before{background-image:url(../flags/1x1/tt.svg)}
+.bb-flag-tv::before{background-image:url(../flags/1x1/tv.svg)}
+.bb-flag-tw::before{background-image:url(../flags/1x1/tw.svg)}
+.bb-flag-tz::before{background-image:url(../flags/1x1/tz.svg)}
+.bb-flag-ua::before{background-image:url(../flags/1x1/ua.svg)}
+.bb-flag-ug::before{background-image:url(../flags/1x1/ug.svg)}
+.bb-flag-um::before{background-image:url(../flags/1x1/um.svg)}
+.bb-flag-un::before{background-image:url(../flags/1x1/un.svg)}
+.bb-flag-us::before{background-image:url(../flags/1x1/us.svg)}
+.bb-flag-uy::before{background-image:url(../flags/1x1/uy.svg)}
+.bb-flag-uz::before{background-image:url(../flags/1x1/uz.svg)}
+.bb-flag-va::before{background-image:url(../flags/1x1/va.svg)}
+.bb-flag-vc::before{background-image:url(../flags/1x1/vc.svg)}
+.bb-flag-ve::before{background-image:url(../flags/1x1/ve.svg)}
+.bb-flag-vg::before{background-image:url(../flags/1x1/vg.svg)}
+.bb-flag-vi::before{background-image:url(../flags/1x1/vi.svg)}
+.bb-flag-vn::before{background-image:url(../flags/1x1/vn.svg)}
+.bb-flag-vu::before{background-image:url(../flags/1x1/vu.svg)}
+.bb-flag-wf::before{background-image:url(../flags/1x1/wf.svg)}
+.bb-flag-ws::before{background-image:url(../flags/1x1/ws.svg)}
+.bb-flag-xk::before{background-image:url(../flags/1x1/xk.svg)}
+.bb-flag-xx::before{background-image:url(../flags/1x1/xx.svg)}
+.bb-flag-ye::before{background-image:url(../flags/1x1/ye.svg)}
+.bb-flag-yt::before{background-image:url(../flags/1x1/yt.svg)}
+.bb-flag-za::before{background-image:url(../flags/1x1/za.svg)}
+.bb-flag-zm::before{background-image:url(../flags/1x1/zm.svg)}
+.bb-flag-zw::before{background-image:url(../flags/1x1/zw.svg)}

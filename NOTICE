@@ -1,0 +1,13 @@
+Silverstripe Better Badges
+Licensed under the BSD-3-Clause License (see LICENSE).
+
+------------------------------------------------------------------------
+This package bundles country-flag SVG icons from flag-icons:
+
+  flag-icons — https://github.com/lipis/flag-icons
+  Copyright (c) 2013 Panayiotis Lipiridis
+  Licensed under the MIT License.
+
+The full flag-icons license text is included at
+client/flags/FLAG-ICONS-LICENSE.txt. The flags are used only by the opt-in
+locale-flags feature (BetterBadges.locale_flags).
