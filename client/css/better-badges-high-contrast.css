@@ -1,0 +1,24 @@
+/* better-badges — high-contrast overlay (opt-in).
+ *
+ * Enabled via `BetterBadges.high_contrast: true` (YAML) or `SS_BETTER_BADGES_HIGH_CONTRAST` (.env),
+ * and loaded in addition to the chosen style. Pushes the Fluent locale badges to WCAG AAA (>= 7:1)
+ * by using a light opaque tint with darker text — on top of any base style (on the solid compact /
+ * pill styles it swaps the solid fill for the readable tint). Native status-badge colours are
+ * SilverStripe's own and left as-is.
+ *
+ * Scoped under `.cms` and loaded last, so it out-ranks the style sheet's own badge colours on
+ * source order at equal specificity. Contrast: green 8.60, purple 9.03, red 8.18 — all AAA. */
+.cms .badge.fluent-badge--default {
+    background: #e0f1e0;
+    color: #064d06;
+}
+
+.cms .badge.fluent-badge--localised {
+    background: #ede2fd;
+    color: #450fa6;
+}
+
+.cms .badge.fluent-badge--invisible {
+    background: #f3e5e5;
+    color: #7f1d1d;
+}

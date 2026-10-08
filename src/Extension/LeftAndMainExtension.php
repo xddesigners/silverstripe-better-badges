@@ -24,5 +24,10 @@ class LeftAndMainExtension extends Extension
         if (BetterBadges::localeFlagsEnabled()) {
             Requirements::css(BetterBadges::localeFlagStylesheet());
         }
+
+        // High-contrast overlay (opt-in) — loaded last so it refines the active style's badge colours.
+        if (BetterBadges::isEnabled() && BetterBadges::highContrastEnabled()) {
+            Requirements::css(BetterBadges::highContrastStylesheet());
+        }
     }
 }

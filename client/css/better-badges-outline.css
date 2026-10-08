@@ -1,53 +1,62 @@
 /* better-badges — "outline" style (default).
- * Compact spacing + a light outline so every badge reads as its own chip instead of
- * a solid vertical bar. Applies to native status badges (Draft, Modified, ...) and,
- * when installed, Fluent locale badges — in all views. */
+ * Compact spacing + a light outline so every badge reads as its own chip instead of a solid vertical
+ * bar. Applies to native status badges (Draft, Modified, ...) and, when installed, Fluent locale badges
+ * — in all views.
+ *
+ * No !important: every rule is scoped under `.cms` (the admin's <body class="cms">). The CMS styles
+ * badges with escalating specificity per view, so we mirror each context with one extra class and win
+ * on specificity alone, regardless of stylesheet load order:
+ *   - edit-view tree (jstree): admin `.cms-tree.jstree span.badge` (0,3,1) -> ours (0,4,1)
+ *   - page list (GridField):   admin `.grid-field__table td.col-getTreeTitle span.badge` (0,4,3) -> ours (0,5,2) */
 
 /* Shape + size for every locale/status badge, everywhere it appears. */
-.badge.fluent-badge,
-.badge[class*="status-"] {
-    margin-left: 6px !important;
-    margin-right: 0 !important;
-    padding: 2px 7px !important;
-    font-size: 10px !important;
-    line-height: 1.2 !important;
-    border-radius: 4px !important;
+.cms .badge.fluent-badge,
+.cms .badge[class*="status-"],
+.cms .cms-tree.jstree span.badge,
+.cms .grid-field__table td.col-getTreeTitle span.badge[class*="status-"] {
+    margin-left: 6px;
+    margin-right: 0;
+    padding: 2px 7px;
+    font-size: 10px;
+    line-height: 1.2;
+    border-radius: 4px;
 }
 
-/* Page-tree badges are absolutely positioned and touch — inset to break the bar, and vertically centred in the row (top:2px pairs with the 1px-shorter badge). */
-.cms-content-tools .cms-tree.jstree span.badge {
-    top: 2px !important;
-}
-/* Fluent adds an empty, text-less flag (status-fluentinvisible) only to carry a class
- * on the tree node (to dim its link); it renders as an empty badge span. Hide it so
- * the styling doesn't turn it into a stray empty chip. */
-.badge[class*="status-"]:empty {
-    display: none !important;
+/* Page-tree badges are absolutely positioned and touch — nudge down to vertically centre in the row. */
+.cms .cms-tree.jstree span.badge {
+    top: 2px;
 }
 
-/* Native status badges already carry a tinted background + coloured text — add a
- * matching outline in that same colour. */
-.badge[class*="status-"]:not(.fluent-badge) {
-    border: 1px solid currentColor !important;
+/* Fluent's empty, text-less flag span (status-fluentinvisible) carries a class on the tree node only;
+ * hide it so the styling doesn't render a stray empty chip. */
+.cms .badge[class*="status-"]:empty {
+    display: none;
 }
 
-/* Fluent locale badges are solid-filled — soften to a light tint + coloured text + outline.
- * The tint is opaque (not rgba) so it still masks any page title that runs under the
- * absolutely-positioned badge, exactly like the native solid badge does. */
-.badge.fluent-badge--default {
-    background: #e0f1e0 !important;
-    color: #0a6b0a !important;
-    border: 1px solid #1a9a1a !important;
+/* Native status badges already carry a tinted background + coloured text — add a matching outline in
+ * that same colour. */
+.cms .badge[class*="status-"]:not(.fluent-badge) {
+    border: 1px solid currentColor;
 }
 
-.badge.fluent-badge--localised {
-    background: #ede2fd !important;
-    color: #5212c9 !important;
-    border: 1px solid #660ff2 !important;
+/* Fluent locale badges are solid-filled — soften to a light tint + coloured text + outline. The tint is
+ * opaque (not rgba) so it still masks any page title that runs under the absolutely-positioned badge,
+ * exactly like the native solid badge does. Contrast: green 5.71, purple 7.38, red 6.29 (all AA; see the
+ * opt-in high-contrast mode for AAA). */
+.cms .badge.fluent-badge--default {
+    background: #e0f1e0;
+    color: #0a6b0a;
+    border: 1px solid #1a9a1a;
 }
 
-.badge.fluent-badge--invisible {
-    background: #f3e5e5 !important;
-    color: #9b2828 !important;
-    border: 1px solid #9b2828 !important;
+.cms .badge.fluent-badge--localised {
+    background: #ede2fd;
+    color: #5212c9;
+    border: 1px solid #660ff2;
+}
+
+.cms .badge.fluent-badge--invisible {
+    background: #f3e5e5;
+    color: #9b2828;
+    border: 1px solid #9b2828;
 }

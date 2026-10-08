@@ -107,6 +107,30 @@ Options:
 The region is taken from the locale (`en_GB` → `gb`); language-only locales (`en`) or non-country
 subtags (`zh_Hans`) show no flag unless mapped.
 
+## Accessibility & high-contrast mode
+
+The softened locale-badge colours already meet **WCAG AA** contrast (green 5.71, purple 7.38, red 6.29).
+For stricter needs there is an **opt-in high-contrast mode** that darkens the locale-badge text to
+**WCAG AAA** (≥ 7:1 — green 8.60, purple 9.03, red 8.18) while keeping the same design. The native
+status-badge colours are Silverstripe's own and are left untouched.
+
+```yaml
+XD\BetterBadges\BetterBadges:
+  high_contrast: true
+```
+
+…or per environment from `.env` (takes precedence over the config):
+
+```
+SS_BETTER_BADGES_HIGH_CONTRAST="1"
+```
+
+The overlay loads in addition to the chosen style, so it layers on top of any of them (including flags).
+
+All of the styling wins on CSS **specificity alone — no `!important`** — by scoping every rule under the
+admin's `.cms` body and mirroring the CMS's own per-view badge selectors (edit-view tree, page list) with
+one extra class. So it overrides the framework/Fluent badge rules cleanly without fighting your own CSS.
+
 ## License
 
 BSD-3-Clause.

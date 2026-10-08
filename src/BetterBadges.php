@@ -115,6 +115,26 @@ class BetterBadges
         'xddesigners/silverstripe-better-badges:client/css/better-badges-flags.css';
 
     /**
+     * Opt-in high-contrast mode: pushes the Fluent locale badges to WCAG AAA (darker text on a light
+     * tint). Loaded in addition to the active style. Enable in YAML (`high_contrast: true`) or per
+     * environment via `SS_BETTER_BADGES_HIGH_CONTRAST`.
+     *
+     * @config
+     */
+    private static bool $high_contrast = false;
+
+    /**
+     * Environment variable that enables high-contrast mode when set truthy (overrides the config).
+     */
+    public const HIGH_CONTRAST_ENV_VAR = 'SS_BETTER_BADGES_HIGH_CONTRAST';
+
+    /**
+     * The high-contrast overlay stylesheet.
+     */
+    private const HIGH_CONTRAST_STYLESHEET =
+        'xddesigners/silverstripe-better-badges:client/css/better-badges-high-contrast.css';
+
+    /**
      * The effective style: the `SS_BETTER_BADGES_STYLE` env var when set, otherwise the `style`
      * config. Lower-cased and trimmed.
      */
@@ -171,6 +191,27 @@ class BetterBadges
     public static function localeFlagStylesheet(): string
     {
         return self::LOCALE_FLAGS_STYLESHEET;
+    }
+
+    /**
+     * Whether high-contrast mode is enabled: `SS_BETTER_BADGES_HIGH_CONTRAST` when set, otherwise the
+     * `high_contrast` config.
+     */
+    public static function highContrastEnabled(): bool
+    {
+        $env = Environment::getEnv(self::HIGH_CONTRAST_ENV_VAR);
+        if ($env !== false && trim((string) $env) !== '') {
+            return in_array(strtolower(trim((string) $env)), ['1', 'true', 'on', 'yes'], true);
+        }
+        return (bool) static::config()->get('high_contrast');
+    }
+
+    /**
+     * The high-contrast overlay stylesheet.
+     */
+    public static function highContrastStylesheet(): string
+    {
+        return self::HIGH_CONTRAST_STYLESHEET;
     }
 
     /**

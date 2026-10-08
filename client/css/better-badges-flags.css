@@ -14,17 +14,29 @@
    margin around it is equal top / bottom, with a matching left inset. It needs a positioning context:
    in the page TREE the CMS already positions badges `absolute`, so we only make the OTHER surfaces
    (list / header) relative, and keep the tree's own absolute positioning. Individual background-* props
-   (not the shorthand) so the per-country rule below only sets the image. */
-.badge.fluent-badge.bb-flag {
+   (not the shorthand) so the per-country rule below only sets the image.
+   No !important: scoped under `.cms`, with a selector per view that out-ranks that view's own badge rule
+   (both the admin's and the style sheet's) so the flag's position/padding-left win everywhere:
+     - edit-view tree (jstree):  `.cms .cms-tree.jstree span.badge.fluent-badge.bb-flag` (0,6,1)
+     - page list (GridField):    `.cms .grid-field__table td.col-getTreeTitle span.badge.fluent-badge.bb-flag` (0,6,2)
+       (beats the admin list rule `.grid-field__table td.col-getTreeTitle span.badge` at 0,4,3). */
+.cms .badge.fluent-badge.bb-flag {
     position: relative;
-    padding-left: 17px !important;   /* reserve room: left inset (3) + flag (10) + gap (4) */
+    padding-left: 17px;   /* reserve room: left inset (3) + flag (10) + gap (4) */
 }
-/* Keep the CMS page tree's absolute badge positioning (our `position: relative` above would break it). */
-.jstree span.badge.fluent-badge.bb-flag,
-.cms-tree span.badge.fluent-badge.bb-flag {
+/* In the page tree the badge is absolute (admin) — keep it, and win padding-left over the style sheet's
+   own 0,4,1 tree rule with this tree-scoped selector (0,6,1). */
+.cms .cms-tree.jstree span.badge.fluent-badge.bb-flag {
     position: absolute;
+    padding-left: 17px;
 }
-.badge.fluent-badge.bb-flag::before {
+/* In the page list (GridField) the badge flows inline — make it relative for the ::before, and win
+   position/padding-left over the admin's list rule (0,4,3) with this (0,6,2) selector. */
+.cms .grid-field__table td.col-getTreeTitle span.badge.fluent-badge.bb-flag {
+    position: relative;
+    padding-left: 17px;
+}
+.cms .badge.fluent-badge.bb-flag::before {
     content: '';
     position: absolute;
     left: 3px;
@@ -42,18 +54,21 @@
 
 /* Square variant: a square flag with subtle tiny rounded corners instead of a circle. Applied on the
    non-pill styles (and when locale_flags_shape = 'square'); see BetterBadges::localeFlagSquare(). */
-.badge.fluent-badge.bb-flag.bb-flag-square::before {
+.cms .badge.fluent-badge.bb-flag.bb-flag-square::before {
     border-radius: 2px;
 }
 
-/* Flag-only (BetterBadges.locale_flags_hide_code = true): hide the code, keep just the (centred) flag. */
-.badge.fluent-badge.bb-flag.bb-flag-nocode {
-    font-size: 0 !important;
-    padding: 0 !important;
+/* Flag-only (BetterBadges.locale_flags_hide_code = true): hide the code, keep just the (centred) flag.
+   0,5,0 out-ranks the style sheet's shape rules (0,3,0 / 0,4,1) so no !important is needed. In the
+   page list the shape rule is itself (0,5,2), so the GridField-scoped selector below (0,7,2) wins there. */
+.cms .badge.fluent-badge.bb-flag.bb-flag-nocode,
+.cms .grid-field__table td.col-getTreeTitle span.badge.fluent-badge.bb-flag.bb-flag-nocode {
+    font-size: 0;
+    padding: 0;
     width: 16px;
     min-width: 16px;
 }
-.badge.fluent-badge.bb-flag.bb-flag-nocode::before {
+.cms .badge.fluent-badge.bb-flag.bb-flag-nocode::before {
     left: 50%;
     transform: translate(-50%, -50%);
 }

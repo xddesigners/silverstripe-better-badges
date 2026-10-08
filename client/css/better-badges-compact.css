@@ -1,24 +1,32 @@
 /* better-badges — "compact" style.
- * Compact rounded badges with vertical spacing so a column no longer merges into
- * one solid bar. Applies to every locale/status badge, in all views (page list,
- * edit-view tree, header/breadcrumb). Native solid fills are kept. */
-.badge.fluent-badge,
-.badge[class*="status-"] {
-    margin-left: 6px !important;
-    margin-right: 0 !important;
-    padding: 2px 7px !important;
-    font-size: 10px !important;
-    line-height: 1.2 !important;
-    border-radius: 4px !important;
+ * Compact rounded badges with vertical spacing so a column no longer merges into one solid bar.
+ * Applies to every locale/status badge, in all views (page list, edit-view tree, header/breadcrumb).
+ * Native solid fills are kept.
+ *
+ * No !important: every rule is scoped under `.cms` (the admin's <body class="cms">). The CMS styles
+ * badges with escalating specificity per view, so we mirror each context with one extra class and win
+ * on specificity alone, regardless of stylesheet load order:
+ *   - edit-view tree (jstree): admin `.cms-tree.jstree span.badge` (0,3,1) -> ours (0,4,1)
+ *   - page list (GridField):   admin `.grid-field__table td.col-getTreeTitle span.badge` (0,4,3) -> ours (0,5,2) */
+.cms .badge.fluent-badge,
+.cms .badge[class*="status-"],
+.cms .cms-tree.jstree span.badge,
+.cms .grid-field__table td.col-getTreeTitle span.badge[class*="status-"] {
+    margin-left: 6px;
+    margin-right: 0;
+    padding: 2px 7px;
+    font-size: 10px;
+    line-height: 1.2;
+    border-radius: 4px;
 }
 
-/* Page-tree badges are absolutely positioned and touch — inset to break the bar, and vertically centred in the row (top:2px pairs with the 1px-shorter badge). */
-.cms-content-tools .cms-tree.jstree span.badge {
-    top: 2px !important;
+/* Page-tree badges are absolutely positioned and touch — nudge down to vertically centre in the row. */
+.cms .cms-tree.jstree span.badge {
+    top: 2px;
 }
-/* Fluent adds an empty, text-less flag (status-fluentinvisible) only to carry a class
- * on the tree node (to dim its link); it renders as an empty badge span. Hide it so
- * the styling doesn't turn it into a stray empty chip. */
-.badge[class*="status-"]:empty {
-    display: none !important;
+
+/* Fluent's empty, text-less flag span (status-fluentinvisible) carries a class on the tree node only;
+ * hide it so the styling doesn't render a stray empty chip. */
+.cms .badge[class*="status-"]:empty {
+    display: none;
 }
