@@ -127,10 +127,6 @@ SS_BETTER_BADGES_HIGH_CONTRAST="1"
 
 The overlay loads in addition to the chosen style, so it layers on top of any of them (including flags).
 
-All of the styling wins on CSS **specificity alone — no `!important`** — by scoping every rule under the
-admin's `.cms` body and mirroring the CMS's own per-view badge selectors (edit-view tree, page list) with
-one extra class. So it overrides the framework/Fluent badge rules cleanly without fighting your own CSS.
-
 ## License
 
 BSD-3-Clause.
