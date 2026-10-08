@@ -10,31 +10,25 @@
  * covers both. Loaded in addition to the chosen style; designed for the pill styles.
  */
 
-/* The flag is an ABSOLUTELY-positioned ::before inside the badge, vertically centred (top:50%) so the
-   margin around it is equal top / bottom, with a matching left inset. It needs a positioning context:
-   in the page TREE the CMS already positions badges `absolute`, so we only make the OTHER surfaces
-   (list / header) relative, and keep the tree's own absolute positioning. Individual background-* props
-   (not the shorthand) so the per-country rule below only sets the image.
-   No !important: scoped under `.cms`, with a selector per view that out-ranks that view's own badge rule
-   (both the admin's and the style sheet's) so the flag's position/padding-left win everywhere:
-     - edit-view tree (jstree):  `.cms .cms-tree.jstree span.badge.fluent-badge.bb-flag` (0,6,1)
-     - page list (GridField):    `.cms .grid-field__table td.col-getTreeTitle span.badge.fluent-badge.bb-flag` (0,6,2)
-       (beats the admin list rule `.grid-field__table td.col-getTreeTitle span.badge` at 0,4,3). */
-.cms .badge.fluent-badge.bb-flag {
-    position: relative;
-    padding-left: 17px;   /* reserve room: left inset (3) + flag (10) + gap (4) */
-}
-/* In the page tree the badge is absolute (admin) — keep it, and win padding-left over the style sheet's
-   own 0,4,1 tree rule with this tree-scoped selector (0,6,1). */
-.cms .cms-tree.jstree span.badge.fluent-badge.bb-flag {
-    position: absolute;
-    padding-left: 17px;
-}
-/* In the page list (GridField) the badge flows inline — make it relative for the ::before, and win
-   position/padding-left over the admin's list rule (0,4,3) with this (0,6,2) selector. */
+/* The flag is an absolutely-positioned ::before inside the badge, vertically centred (top:50%) with a
+   matching left inset; `padding-left` reserves room for it. The badge only needs to be a positioning
+   context, so we make it `position: relative` — it still flows inline exactly like the CMS's own static
+   tree/list badges.
+   NOT `absolute`: the CMS renders the tree badges statically (inline), and some tree renders (e.g.
+   `admin/pages?ParentID=0`, and the ajax tree rebuild on a Tree/List view toggle) give the badge no
+   positioned ancestor — so `absolute` would detach every flag badge to <body> and pile them all at the
+   top of the page, i.e. the locale badges "disappear" from their rows.
+   Individual background-* props below (not the shorthand) so the per-country rule only sets the image.
+   No !important: scoped under `.cms`, with a selector per view whose specificity out-ranks that view's own
+   badge padding rule, so `padding-left` wins everywhere:
+     - edit-view / header:     `.cms .badge.fluent-badge.bb-flag` (0,4,0)
+     - page tree (jstree):     `.cms .cms-tree.jstree span.badge.fluent-badge.bb-flag` (0,6,1) — beats the style sheet's 0,4,1 tree rule
+     - page list (GridField):  `.cms .grid-field__table td.col-getTreeTitle span.badge.fluent-badge.bb-flag` (0,6,2) — beats the admin list rule at 0,4,3 */
+.cms .badge.fluent-badge.bb-flag,
+.cms .cms-tree.jstree span.badge.fluent-badge.bb-flag,
 .cms .grid-field__table td.col-getTreeTitle span.badge.fluent-badge.bb-flag {
     position: relative;
-    padding-left: 17px;
+    padding-left: 17px;   /* reserve room: left inset (3) + flag (10) + gap (4) */
 }
 .cms .badge.fluent-badge.bb-flag::before {
     content: '';
