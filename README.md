@@ -34,7 +34,7 @@ Pick a style (default `outline`). In YAML:
 
 ```yaml
 XD\BetterBadges\BetterBadges:
-  style: outline   # outline | outline-pill | compact | pill | off
+  style: outline   # outline | outline-pill | compact | pill | minimal | off
 ```
 
 Or in `app/_config.php`:
@@ -48,13 +48,16 @@ Config::modify()->set(BetterBadges::class, 'style', 'pill');
 
 ### Styles
 
-| Style          | Looks like                                                                                      |
-| -------------- | ----------------------------------------------------------------------------------------------- |
+| Style          | Looks like                                                                                            |
+| -------------- | ----------------------------------------------------------------------------------------------------- |
 | `outline`      | **Default.** Compact + a light outline; every state softened to a tinted chip with a coloured border. |
-| `outline-pill` | The outline treatment with fully rounded pill badges.                                           |
-| `compact`      | Compact rounded rectangle, keeps the native solid fills.                                         |
-| `pill`         | Compact, fully rounded, keeps the native solid fills.                                            |
-| `off`          | Alias `none`. **Disabled** — loads no stylesheet; the CMS badges stay exactly as Silverstripe renders them (the first panel above). |
+| `outline-pill` | The outline treatment with fully rounded pill badges.                                                 |
+| `compact`      | Compact rounded rectangle, keeps the native solid fills.                                              |
+| `pill`         | Compact, fully rounded, keeps the native solid fills.                                                 |
+| `minimal`      | One single batch/dot, the fill carries the publish state and violet hilights untranslated pages       |
+| `off`          | Alias `none`. **Disabled** — loads no stylesheet; the CMS badges stay exactly as Silverstripe.        |
+|                | renders them (the first panel above).                                                                 |
+
 
 Every style except `off` adds the vertical spacing that breaks up the bar; they only differ in
 the look. `off` leaves the native badges completely untouched — useful to compare, or to disable

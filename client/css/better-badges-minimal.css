@@ -1,0 +1,84 @@
+/* better-badges — "minimal" style.
+ * Consolidates the badges of a tree row into ONE dot: fill (solid vs. hollow) carries the publish
+ * state, colour carries the locale state (violet highlights untranslated items).
+ *
+ * Accessibility: the textual badges are never removed from the accessibility tree. The dot keeps its
+ * text (e.g. "de_CH", visually transparent) and the native Draft/Modified badges are visually hidden
+ * with a clip pattern, so screen readers still announce state. */
+
+/* remove small dots (image overly) — decorative pseudo-element */
+.cms .cms-tree.jstree li > a .jstree-recordicon::after {
+  display: none;
+}
+
+.cms .cms-tree.jstree li a > .text .status-fluent {
+	box-sizing: border-box;
+    width: 10px;
+    aspect-ratio: 1/1;
+    padding: 0;
+    border: 0;
+	margin: 0 0 0 4px;
+    border-radius: 50cqh;
+    color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: baseline;
+}
+
+/* Edit-view sidebar: the CMS positions the badge absolutely (relative to the row), so `vertical-align`
+ * has no effect there — centre it on the row explicitly instead of nudging with margins. */
+.cms .cms-content-tools .cms-tree.jstree li a > .text .status-fluent {
+    top: 50%;
+    margin: -1px 0 0 6px;
+    transform: translateY(-50%);
+}
+
+/* The edit-view sidebar hides every badge after the first one — show the locale dot anyway
+ * (also for unpublished and draft-only pages). */
+.cms .cms-content-tools .cms-tree.jstree span.badge ~ .badge {
+	display: inherit;
+}
+
+/* Publish state, in every tree (main page tree and edit-view sidebar): the dot following a native
+ * status badge changes fill. Draft-only = solid orange, modified = hollow with orange outline. */
+.cms .cms-tree.jstree span.badge.status-addedtodraft ~ .badge {
+	background-color: #c23a00;
+}
+
+.cms .cms-tree.jstree span.badge.status-modified ~ .badge {
+	background-color: #ffede0;
+	border: 1px solid #c23a00;
+}
+
+.cms .cms-tree.jstree span.badge.fluent-badge--invisible {
+	background-color: #660ff2;
+}
+
+/* The native Draft/Modified badges are redundant visually (the dot shows the state) but must stay
+ * available to assistive tech: visually hidden, NOT display:none. */
+.cms .cms-tree.jstree li a > .text .badge.status-modified,
+.cms .cms-tree.jstree li a > .text .badge.status-addedtodraft {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* Fluent's flag span is empty (no text, nothing to announce), so display:none costs nothing. */
+.cms .cms-tree.jstree li a > .text .badge.status-fluentinvisible {
+	display: none;
+}
+
+/* Windows High Contrast / forced colors replaces background colours, which would make the dots vanish.
+ * Keep the authored fill and give hollow/solid a visible edge. */
+@media (forced-colors: active) {
+	.cms .cms-tree.jstree li a > .text .status-fluent {
+		forced-color-adjust: none;
+		border: 1px solid CanvasText;
+	}
+}

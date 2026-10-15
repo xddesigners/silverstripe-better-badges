@@ -2,8 +2,8 @@
 
 namespace XD\BetterBadges;
 
-use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Environment;
+use SilverStripe\Core\Config\Configurable;
 
 /**
  * Configuration for better-badges.
@@ -42,6 +42,8 @@ class BetterBadges
      *  - 'outline-pill': the outline treatment with fully rounded pill badges.
      *  - 'compact': compact rounded rectangle, keeps the native solid fills.
      *  - 'pill': compact, fully rounded, keeps the native solid fills.
+     *  - 'minimal': bare-bones treatment with just the vertical spacing fix, no borders or
+     *     colour changes — a blank canvas, customise its stylesheet to taste.
      *  - 'off' (alias 'none'): disabled — load no stylesheet, native badges unchanged.
      *
      * An unknown value falls back to 'outline'.
@@ -68,6 +70,7 @@ class BetterBadges
         'outline-pill' => 'xddesigners/silverstripe-better-badges:client/css/better-badges-outline-pill.css',
         'compact' => 'xddesigners/silverstripe-better-badges:client/css/better-badges-compact.css',
         'pill' => 'xddesigners/silverstripe-better-badges:client/css/better-badges-pill.css',
+        'minimal' => 'xddesigners/silverstripe-better-badges:client/css/better-badges-minimal.css',
     ];
 
     /**
@@ -169,6 +172,7 @@ class BetterBadges
         if (!self::isEnabled()) {
             return '';
         }
+
         return self::STYLES[self::style()] ?? self::STYLES['outline'];
     }
 
@@ -182,6 +186,7 @@ class BetterBadges
         if ($env !== false && trim((string) $env) !== '') {
             return in_array(strtolower(trim((string) $env)), ['1', 'true', 'on', 'yes'], true);
         }
+
         return (bool) static::config()->get('locale_flags');
     }
 
@@ -203,6 +208,7 @@ class BetterBadges
         if ($env !== false && trim((string) $env) !== '') {
             return in_array(strtolower(trim((string) $env)), ['1', 'true', 'on', 'yes'], true);
         }
+
         return (bool) static::config()->get('high_contrast');
     }
 
@@ -228,6 +234,7 @@ class BetterBadges
         if ($shape === 'circle') {
             return false;
         }
+
         return !in_array(self::style(), ['pill', 'outline-pill'], true);
     }
 
@@ -285,6 +292,7 @@ class BetterBadges
                 $codes[] = strtolower(basename($file, '.svg'));
             }
         }
+
         return $codes;
     }
 }

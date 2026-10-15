@@ -3,6 +3,8 @@
 namespace XD\BetterBadges\Extension;
 
 use SilverStripe\Core\Extension;
+use TractorCow\Fluent\Extension\Traits\FluentBadgeTrait;
+use TractorCow\Fluent\Model\Locale;
 use XD\BetterBadges\BetterBadges;
 
 /**
@@ -20,6 +22,8 @@ class SiteTreeLocaleFlagExtension extends Extension
 {
     public function updateStatusFlags(array &$flags)
     {
+        $this->fixInheritedTitles($flags);
+
         if (!BetterBadges::localeFlagsEnabled()) {
             return;
         }
@@ -50,6 +54,30 @@ class SiteTreeLocaleFlagExtension extends Extension
         foreach ($rewrites as $old => $new) {
             $flags[$new] = $flags[$old];
             unset($flags[$old]);
+        }
+    }
+
+    /**
+     * Fluent labels the tree badge of a page that merely inherits its content with "Localised in
+     * {source locale}" — the same text as a truly localised page. Use Fluent's own "Inherited from
+     * {locale}" string (already used by its grid/header badges) so the tooltip tells them apart.
+     */
+    private function fixInheritedTitles(array &$flags): void
+    {
+        foreach ($flags as $key => &$data) {
+            if (strpos((string) $key, 'fluent-badge--localised') === false
+                || !is_array($data)
+                || empty($data['text'])
+            ) {
+                continue;
+            }
+
+            $source = Locale::getByLocale($data['text']);
+            $data['title'] = _t(
+                FluentBadgeTrait::class . '.BadgeInherited',
+                'Inherited from {locale}',
+                ['locale' => $source ? $source->getTitle() : $data['text']]
+            );
         }
     }
 }
