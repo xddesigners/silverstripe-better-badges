@@ -27,8 +27,9 @@
  * (batch-actions / tree view) and the GridField lists have room, so they keep the full text badge. */
 .cms .cms-content-tools .cms-tree.jstree span.badge.bb-locale-icon {
     font-size: 0;
-    padding-left: 2px;
-    padding-right: 1px;
+    /* Set all four paddings (not just horizontal): the styles supply the 2px vertical padding, but with
+       style "off" the badge would keep Bootstrap's tall native padding and push the row height up. */
+    padding: 2px 1px 2px 2px;
 }
 
 /* The edit-view sidebar normally collapses to the first badge; in icon mode the glyphs are tiny, so
