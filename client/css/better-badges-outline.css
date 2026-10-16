@@ -63,37 +63,8 @@
     border: 1px solid #9b2828;
 }
 
-/* Draft-only pages (Concept / status-addedtodraft) aren't live yet — set them apart from Modified
- * (published, just changed) with the concept colour (sky blue); Modified keeps its orange attention
- * colour. (Specificity mirrors the CMS per-view badge rules, like the blocks above.)
- * Alternative concept palette kept on file — purple: badge #7a5389 on #f3ecf7, dot + title #8a639c. */
-.cms .cms-tree.jstree span.badge.status-addedtodraft,
-.cms .grid-field__table td.col-getTreeTitle span.badge.status-addedtodraft,
-.cms .bb-locale-legend .badge.status-addedtodraft {
-    background: #e4f2fc;
-    color: #136ca5;
-}
-
-/* ...and recolour the native status dot on the page icon to sky blue, so the icon + badge tell one
- * story (the CMS paints the dot orange like Modified by default). */
-.cms .cms-tree.jstree li.status-addedtodraft > a .jstree-recordicon::after {
-    background: #1a7fc2;
-    /* the CMS rings the dot with an inset orange shadow — recolour that ring too, keep the drop shadow. */
-    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 1px 0, #1a7fc2 0 0 0 1px inset;
-}
-
-/* Draft-only page title: italic — a distinction that needs no colour change, so it keeps its normal
- * blue AA contrast while the sky-blue badge + dot carry the concept identity. (A distinct sky-blue
- * title *colour* can't be both clearly different from the link blue and WCAG-AA, hence italic.) */
-.cms .cms-tree.jstree li > a:has(.badge.status-addedtodraft) > .text > .item,
-.cms .grid-field__table td.col-getTreeTitle:has(.badge.status-addedtodraft) a.action-detail {
-    font-style: italic;
-}
-
-/* ...but never the badge text — only the page title is italic. */
-.cms .grid-field__table td.col-getTreeTitle:has(.badge.status-addedtodraft) a.action-detail .badge {
-    font-style: normal;
-}
+/* The draft/concept treatment (sky-blue badge + dot, italic title) now lives in
+ * better-badges-concept.css, loaded with every active style so it is consistent across all of them. */
 
 /* Fluent's empty "no content in this locale" flag (status-fluentinvisible) can slip past the :empty
  * guard in some views (a stray grey pill after "No source") — hide it outright. */

@@ -71,6 +71,13 @@ class BetterBadges
     ];
 
     /**
+     * The draft/concept treatment (sky-blue draft badge + dot, italic title). Loaded alongside every
+     * active style so the Draft-vs-Modified distinction is consistent across all of them.
+     */
+    private const CONCEPT_STYLESHEET =
+        'xddesigners/silverstripe-better-badges:client/css/better-badges-concept.css';
+
+    /**
      * Opt-in: show a small country flag inside each Fluent locale badge (needs silverstripe-fluent).
      * A circular flag (flag-icons 1x1) is placed on the left of the badge, derived from the locale's
      * region, with the `xx_YY` code kept beside it. Enable in YAML (`locale_flags: true`) or per
@@ -217,6 +224,14 @@ class BetterBadges
             return '';
         }
         return self::STYLES[self::style()] ?? self::STYLES['outline'];
+    }
+
+    /**
+     * The draft/concept stylesheet, loaded alongside the active style whenever the module is enabled.
+     */
+    public static function conceptStylesheet(): string
+    {
+        return self::CONCEPT_STYLESHEET;
     }
 
     /**

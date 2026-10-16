@@ -18,6 +18,8 @@ class LeftAndMainExtension extends Extension
         $stylesheet = BetterBadges::stylesheet();
         if ($stylesheet !== '') {
             Requirements::css($stylesheet);
+            // The draft/concept treatment goes with every active style (loaded after it so it wins).
+            Requirements::css(BetterBadges::conceptStylesheet());
         }
 
         // Locale marker (opt-in), independent of the chosen style: either the translatable icon or a
