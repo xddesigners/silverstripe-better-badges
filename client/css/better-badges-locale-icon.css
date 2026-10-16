@@ -1,33 +1,31 @@
 /* better-badges — "locale icon" option (opt-in: BetterBadges.locale_icon / SS_BETTER_BADGES_LOCALE_ICON).
  *
- * Icon mode: each tree badge keeps its chip (background, border, state colour) but swaps its text for a
- * small glyph — a compact, language-neutral marker, useful where the label text is long (German/Dutch).
- * The SiteTreeLocaleFlagExtension stamps `bb-locale-icon` onto the badges; this stylesheet picks the
- * glyph from the badge's own status class and tints it to the badge colour:
- *   - Fluent locale badge                -> translate icon
- *   - No source (status-removedfromdraft) -> ban icon
+ * Icon mode: every badge keeps its chip (background, border, state colour) and gains a small glyph, a
+ * compact language-neutral marker. The SiteTreeLocaleFlagExtension stamps `bb-locale-icon` onto the
+ * badges; this stylesheet picks the glyph from the badge's own status class and tints it to the badge
+ * colour:
+ *   - Fluent locale badge                 -> translate icon
+ *   - Not translated (fluent-badge--invisible) -> translate-off (struck-through) icon
+ *   - No source (status-removedfromdraft) -> block icon
  *   - Draft     (status-addedtodraft)     -> eye-off icon
- *   - Modified  (status-modified)         -> pen icon
+ *   - Modified  (status-modified)         -> edit-line icon
  *
- * Accessibility: the label text is only collapsed (font-size:0), so it stays in the DOM / a11y tree and
- * the badge's title tooltip is untouched — screen readers still announce the state/locale. The glyph is
- * a decorative ::before (not in the a11y tree).
+ * In the TREE (jstree, where space is tight) the text is collapsed to an icon-only chip; in GridField
+ * lists and the breadcrumb header the glyph sits beside the full text.
+ *
+ * Accessibility: in the tree the label text is only collapsed (font-size:0), so it stays in the DOM /
+ * a11y tree and the badge's title tooltip is untouched — screen readers still announce the state/locale.
+ * The glyph is a decorative ::before (not in the a11y tree).
  *
  * Loaded instead of the flags stylesheet (the two are mutually exclusive; see LeftAndMainExtension).
  *
  * Glyphs under client/img are Material Symbols (Google; Outlined, weight 600 — translate, block,
  * visibility_off, edit_line), licensed Apache-2.0. See the module README for attribution. */
 
-/* Collapse the label text and tighten the chip. Mirror the per-view selectors so this beats the active
- * style's size rules regardless of load order:
- *   - edit-view tree (jstree):  style `…cms-tree.jstree span.badge` (0,4,1) -> ours (0,5,1)
- *   - any GridField list:       style `…td.col-getTreeTitle span.badge[class*="status-"]` (0,5,2) -> ours (0,5,3)
- * The list selector is column-agnostic (scoped on the row, `tr.ss-gridfield-item`), so it catches BOTH
- * the page list-view (`col-getTreeTitle`) AND managed lists like Blog Posts (`col-Title`) — and clears
- * the outline style's (0,5,2) rule, which every badge here matches (all carry a `status-*` class, incl.
- * the locale badge's `status-fluent`). */
-.cms .cms-tree.jstree span.badge.bb-locale-icon,
-.cms .grid-field__table tr.ss-gridfield-item td span.badge.bb-locale-icon {
+/* Collapse to an icon-only chip ONLY in the narrow edit-view sidebar tree, where horizontal space is
+ * tight. Specificity 0,6,1 beats the style's `…cms-tree.jstree span.badge` (0,4,1). The full-width tree
+ * (batch-actions / tree view) and the GridField lists have room, so they keep the full text badge. */
+.cms .cms-content-tools .cms-tree.jstree span.badge.bb-locale-icon {
     font-size: 0;
     padding-left: 2px;
     padding-right: 1px;
@@ -40,11 +38,11 @@
     display: inline-block;
 }
 
-/* List / tree-grid view: the inline badge is baseline-aligned, so a chip sits a few px low. Centre it
- * on the title line, in any GridField list column. (The jstree edit-view tree centres via its flex row,
- * so it ignores this.) */
-.cms .grid-field__table tr.ss-gridfield-item td span.badge.bb-locale-icon {
-    vertical-align: middle;
+/* GridField lists keep the full badge (chip + the xx_YY / status text); the glyph sits before that text,
+ * so give it a gap and drop it onto the text's centre line — same treatment as the breadcrumb badges. */
+.cms .grid-field__table span.badge.bb-locale-icon::before {
+    margin-right: 4px;
+    vertical-align: -2px;
 }
 
 /* The glyph box: a mask tinted to the badge's own colour (`background-color: currentColor`), so it
@@ -54,6 +52,7 @@
     display: inline-block;
     width: 12px;
     height: 12px;
+    margin-right: 4px; /* gap before the text; removed below where the chip is icon-only */
     vertical-align: middle;
     background-color: currentColor;
     -webkit-mask-position: center;
@@ -62,6 +61,13 @@
     mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
+}
+
+/* Icon-only chips (the narrow sidebar tree + the legend swatches) carry no text, so drop the trailing
+ * gap and keep the glyph centred. */
+.cms .cms-content-tools .cms-tree.jstree span.badge.bb-locale-icon::before,
+.cms .bb-locale-legend .badge.bb-locale-icon::before {
+    margin-right: 0;
 }
 
 /* Locale badge -> translate icon. */

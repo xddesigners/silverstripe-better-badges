@@ -68,7 +68,8 @@
  * colour. (Specificity mirrors the CMS per-view badge rules, like the blocks above.)
  * Alternative concept palette kept on file — purple: badge #7a5389 on #f3ecf7, dot + title #8a639c. */
 .cms .cms-tree.jstree span.badge.status-addedtodraft,
-.cms .grid-field__table td.col-getTreeTitle span.badge.status-addedtodraft {
+.cms .grid-field__table td.col-getTreeTitle span.badge.status-addedtodraft,
+.cms .bb-locale-legend .badge.status-addedtodraft {
     background: #e4f2fc;
     color: #136ca5;
 }

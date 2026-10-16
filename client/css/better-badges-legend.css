@@ -1,30 +1,109 @@
 /* better-badges — locale-icon legend (opt-in: locale_icon_legend / SS_BETTER_BADGES_LOCALE_ICON_LEGEND).
  *
- * A compact key under the Pages header naming each locale icon, so the meaning is available to sighted
- * users at a glance — not only through the hover tooltip / screen-reader text that the badges already
+ * A compact key at the foot of the Pages panel naming each locale icon, so the meaning is available to
+ * sighted users at a glance — not only through the hover tooltip / screen-reader text the badges already
  * carry. Addresses WCAG "icons need a visible, understandable label" guidance for the opt-in icon mode.
  * Only loaded alongside better-badges-locale-icon.css (which provides the ::before glyph masks reused
- * here), and only when the legend is enabled. The row is built by better-badges-legend.js. */
+ * here), and only when the legend is enabled. The row is built by better-badges-legend.js.
+ *
+ * Colours: the swatch is a real badge chip, so its glyph + state colour come from the badge stylesheets
+ * themselves (no values are repeated here); the container borrows the CMS's own Bootstrap variables. */
 
 .cms .bb-locale-legend {
+    position: relative; /* anchor the dismiss button */
+    flex: 0 0 auto;
+    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 7px 16px;
+    gap: 6px 14px;
     margin: 0;
-    padding: 9px 16px;
-    font-size: 13px;
-    line-height: 1.4;
-    color: #3b4a5a;
-    background: #eef2f6;
-    border-top: 1px solid #d5dce3;
-    border-bottom: 1px solid #d5dce3;
+    min-height: 53px; /* line up with the nav / panel south toolbar at the bottom of the screen */
+    padding: 8px 30px 8px 16px; /* extra right padding reserves space for the dismiss button */
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--bs-body-color);
+    background: var(--bs-body-bg); /* same as the tree panel */
+    border-top: 1px solid var(--bs-border-color);
 }
 
-.cms .bb-locale-legend__title {
-    font-weight: 700;
-    margin-right: 4px;
-    color: #2a3744;
+/* Edit-view tree sidebar (narrow): lay the items out as a two-column grid so all six line up. The wide
+ * list view keeps the inline flex row above. */
+.cms .cms-content-tools .bb-locale-legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+}
+
+/* Dismiss button — the CMS's own double-chevron glyph («, U+00AB — same as the panel collapse controls),
+ * rotated to point down (collapse the legend away), top-right. Remembered for the browser session. */
+.cms .bb-locale-legend__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px 10px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 18px; /* same glyph size as the CMS panel-collapse control */
+    line-height: 1;
+    cursor: pointer;
+}
+
+.cms .bb-locale-legend__close::before {
+    content: "\00AB";
+    display: inline-block;
+    transform: rotate(-90deg); /* « points left -> rotate to point down */
+}
+
+.cms .bb-locale-legend__close:hover {
+    color: var(--bs-body-color);
+    background-color: rgb(216, 228, 235); /* same hover as the CMS panel-collapse control */
+}
+
+/* After dismissal, the legend is replaced by a full-width bar carrying the same top divider (so the panel
+ * still reads the same), with a borderless "Legend" button pinned to the right. */
+.cms .bb-locale-legend-toggle-bar {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid var(--bs-border-color); /* same divider as the legend, across the panel width */
+}
+
+/* The "Legend" button: its « glyph (rotated up, same size/hover as the panel-collapse control) lines up
+ * directly above that control; the label uses the legend items' font + colour. */
+.cms .bb-locale-legend-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+    padding: 8px;
+    border: 0;
+    background: transparent;
+    color: var(--bs-body-color);
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.35;
+    cursor: pointer;
+}
+
+.cms .bb-locale-legend-toggle::after {
+    content: "\00AB";
+    display: inline-block;
+    font-size: 18px;
+    line-height: 1;
+    transform: rotate(90deg); /* « points left -> rotate to point up; sits after the label (right side) */
+}
+
+.cms .bb-locale-legend-toggle:hover {
+    background-color: rgb(216, 228, 235); /* same hover as the CMS panel-collapse control */
+}
+
+/* When the tree panel is collapsed there is nothing to explain — hide the legend and its collapsed
+ * "Legend" bar. */
+.cms .cms-content-tools.collapsed .bb-locale-legend,
+.cms .cms-content-tools.collapsed .bb-locale-legend-toggle-bar {
+    display: none;
 }
 
 .cms .bb-locale-legend__item {
@@ -34,55 +113,16 @@
     white-space: nowrap;
 }
 
-/* The swatch reuses a real badge chip, so its ::before glyph + mask come straight from the icon
- * stylesheet. Tighten it to an icon-only chip (no label text inside — the label sits beside it). The
- * chip carries no text, so Bootstrap's `.badge:empty { display:none }` (and our own
+/* The swatch reuses a real badge chip, so its ::before glyph + mask + state colour come straight from the
+ * badge stylesheets. Tighten it to an icon-only chip (no label text inside — the label sits beside it).
+ * The chip carries no text, so Bootstrap's `.badge:empty { display:none }` (and our own
  * `[class*="status-"]:empty` rule) would hide it — force it back on, at 0,5,0 to clear both. */
 .cms .bb-locale-legend .bb-locale-legend__item .badge.bb-locale-icon {
     display: inline-block;
     margin: 0;
-    padding: 1px 4px;
+    padding: 2px 2.5px 2px 2px; /* match the icon-only tree badge: same height, same width + glyph position */
     font-size: 0;
     line-height: 1;
     vertical-align: middle;
     border-radius: 4px;
-}
-
-/* Pin the exact per-state colours. Most come through from the global style rules, but the tree's draft
- * sky-blue and the list tints are context-scoped, so without this the legend swatch would fall back to
- * the CMS defaults. Values mirror the rendered badges (outline style). */
-.cms .bb-locale-legend .badge.fluent-badge--default {
-    background: #e0f1e0;
-    color: #0a6b0a;
-    border: 1px solid #1a9a1a;
-}
-
-.cms .bb-locale-legend .badge.fluent-badge--localised {
-    background: #f0f0f0;
-    color: #595959;
-    border: 1px dashed #9a9a9a;
-}
-
-.cms .bb-locale-legend .badge.fluent-badge--invisible {
-    background: #f3e5e5;
-    color: #9b2828;
-    border: 1px solid #9b2828;
-}
-
-.cms .bb-locale-legend .badge.status-removedfromdraft {
-    background: #f1f3f6;
-    color: #455b6c;
-    border: 1px solid #455b6c;
-}
-
-.cms .bb-locale-legend .badge.status-addedtodraft {
-    background: #e4f2fc;
-    color: #136ca5;
-    border: 1px solid #136ca5;
-}
-
-.cms .bb-locale-legend .badge.status-modified {
-    background: #ffede0;
-    color: #c23a00;
-    border: 1px solid #c23a00;
 }

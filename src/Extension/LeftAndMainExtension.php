@@ -32,7 +32,10 @@ class LeftAndMainExtension extends Extension
                 Requirements::javascript(BetterBadges::localeIconLegendScript());
                 $data = json_encode(
                     [
-                        'title' => _t(BetterBadges::class . '.LEGEND_TITLE', 'Legend'),
+                        'ariaLabel' => _t(BetterBadges::class . '.LEGEND_ARIA_LABEL', 'Page status legend'),
+                        'closeLabel' => _t(BetterBadges::class . '.LEGEND_HIDE', 'Hide legend'),
+                        'showLabel' => _t(BetterBadges::class . '.LEGEND_SHOW', 'Show legend'),
+                        'showLabelShort' => _t(BetterBadges::class . '.LEGEND_LABEL', 'Legend'),
                         'items' => BetterBadges::legendItems(),
                     ],
                     JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES

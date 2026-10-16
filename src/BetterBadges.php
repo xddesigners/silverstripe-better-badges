@@ -298,15 +298,17 @@ class BetterBadges
      */
     public static function legendItems(): array
     {
-        $items = [];
+        // Native markers first (always), then the Fluent-specific ones — only when Fluent is installed.
+        $items = [
+            ['cls' => 'status-addedtodraft', 'label' => _t(self::class . '.LEGEND_DRAFT', 'Draft')],
+            ['cls' => 'status-modified', 'label' => _t(self::class . '.LEGEND_MODIFIED', 'Modified')],
+        ];
         if (class_exists(\TractorCow\Fluent\Model\Locale::class)) {
             $items[] = ['cls' => 'fluent-badge fluent-badge--default', 'label' => _t(self::class . '.LEGEND_LOCALISED', 'Localised')];
             $items[] = ['cls' => 'fluent-badge fluent-badge--localised', 'label' => _t(self::class . '.LEGEND_INHERITED', 'Inherited')];
             $items[] = ['cls' => 'fluent-badge fluent-badge--invisible', 'label' => _t(self::class . '.LEGEND_NOT_TRANSLATED', 'Not translated')];
             $items[] = ['cls' => 'status-removedfromdraft', 'label' => _t(self::class . '.LEGEND_NO_SOURCE', 'No source')];
         }
-        $items[] = ['cls' => 'status-addedtodraft', 'label' => _t(self::class . '.LEGEND_DRAFT', 'Draft')];
-        $items[] = ['cls' => 'status-modified', 'label' => _t(self::class . '.LEGEND_MODIFIED', 'Modified')];
         return $items;
     }
 

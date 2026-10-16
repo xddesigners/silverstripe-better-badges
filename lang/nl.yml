@@ -1,6 +1,9 @@
 nl:
   XD\BetterBadges\BetterBadges:
-    LEGEND_TITLE: 'Legenda:'
+    LEGEND_ARIA_LABEL: 'Legenda paginastatus'
+    LEGEND_HIDE: 'Legenda verbergen'
+    LEGEND_SHOW: 'Legenda tonen'
+    LEGEND_LABEL: 'Legenda'
     LEGEND_LOCALISED: 'Vertaald'
     LEGEND_INHERITED: 'Overgeërfd'
     LEGEND_NOT_TRANSLATED: 'Niet vertaald'
