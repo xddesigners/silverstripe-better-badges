@@ -62,6 +62,10 @@
     top: auto;
     right: auto;
     flex: 0 0 auto;
+    /* Space between adjacent badges. The styles set this margin themselves; repeat it here so the gap is
+       still there with style "off" (where no style stylesheet loads). */
+    margin-left: 6px;
+    margin-right: 0;
 }
 
 /* GridField lists keep the full badge (chip + the xx_YY / status text); the glyph sits before that text,
