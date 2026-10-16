@@ -115,6 +115,28 @@ class BetterBadges
         'xddesigners/silverstripe-better-badges:client/css/better-badges-flags.css';
 
     /**
+     * Opt-in: show Fluent's "translatable" icon inside each Fluent locale badge instead of the
+     * `xx_YY` code — a compact, language-neutral marker (handy where the code text is long, e.g. in
+     * German/Dutch). The badge keeps its state colour (localised / inherited / missing) and the code
+     * stays available to screen readers. Mutually exclusive with `locale_flags` (the icon wins).
+     * Enable in YAML (`locale_icon: true`) or per environment via `SS_BETTER_BADGES_LOCALE_ICON`.
+     *
+     * @config
+     */
+    private static bool $locale_icon = false;
+
+    /**
+     * Environment variable that enables the locale icon when set truthy (overrides the config).
+     */
+    public const LOCALE_ICON_ENV_VAR = 'SS_BETTER_BADGES_LOCALE_ICON';
+
+    /**
+     * Stylesheet that renders the locale icon.
+     */
+    private const LOCALE_ICON_STYLESHEET =
+        'xddesigners/silverstripe-better-badges:client/css/better-badges-locale-icon.css';
+
+    /**
      * Opt-in high-contrast mode: pushes the Fluent locale badges to WCAG AAA (darker text on a light
      * tint). Loaded in addition to the active style. Enable in YAML (`high_contrast: true`) or per
      * environment via `SS_BETTER_BADGES_HIGH_CONTRAST`.
@@ -191,6 +213,27 @@ class BetterBadges
     public static function localeFlagStylesheet(): string
     {
         return self::LOCALE_FLAGS_STYLESHEET;
+    }
+
+    /**
+     * Whether the locale icon is enabled: `SS_BETTER_BADGES_LOCALE_ICON` when set, otherwise the
+     * `locale_icon` config.
+     */
+    public static function localeIconEnabled(): bool
+    {
+        $env = Environment::getEnv(self::LOCALE_ICON_ENV_VAR);
+        if ($env !== false && trim((string) $env) !== '') {
+            return in_array(strtolower(trim((string) $env)), ['1', 'true', 'on', 'yes'], true);
+        }
+        return (bool) static::config()->get('locale_icon');
+    }
+
+    /**
+     * The stylesheet that renders the locale icon.
+     */
+    public static function localeIconStylesheet(): string
+    {
+        return self::LOCALE_ICON_STYLESHEET;
     }
 
     /**

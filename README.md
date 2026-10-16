@@ -107,6 +107,41 @@ Options:
 The region is taken from the locale (`en_GB` → `gb`); language-only locales (`en`) or non-country
 subtags (`zh_Hans`) show no flag unless mapped.
 
+## Locale icon
+
+An alternative to the flags: with [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent)
+installed, each badge can swap its **text for a small glyph** while keeping its chip (background, border
+and state colour). Handy where the label text is long or the tree is cramped. It's **opt-in**, off by
+default, and **mutually exclusive with `locale_flags`** (icon mode wins if both are on). Enable it in
+YAML:
+
+```yaml
+XD\BetterBadges\BetterBadges:
+  locale_icon: true
+```
+
+…or per environment from `.env` (takes precedence over the config):
+
+```
+SS_BETTER_BADGES_LOCALE_ICON="1"
+```
+
+Each badge picks its glyph from its own state and tints it to the badge colour:
+
+| Badge | Glyph |
+| --- | --- |
+| Locale (translation) | translate |
+| No source | ban |
+| Draft | eye-slash |
+| Modified | pen |
+
+The locale glyph stays **rightmost**, and in the edit-view sidebar all glyphs show (a page can be e.g.
+both modified and localised). The label text is only visually collapsed — it stays in the DOM and the
+badge keeps its title tooltip, so screen readers still announce the state and locale.
+
+Glyphs are [Material Symbols](https://fonts.google.com/icons) (Outlined, weight 600 — translate, block,
+visibility_off, edit_line), bundled under `client/img`.
+
 ## Accessibility & high-contrast mode
 
 The softened locale-badge colours already meet **WCAG AA** contrast (green 5.71, purple 7.38, red 6.29).
@@ -127,6 +162,13 @@ SS_BETTER_BADGES_HIGH_CONTRAST="1"
 
 The overlay loads in addition to the chosen style, so it layers on top of any of them (including flags).
 
+## Credits
+
+- Locale-icon glyphs: [Material Symbols](https://fonts.google.com/icons) (Google) — licensed
+  [Apache-2.0](https://github.com/google/material-design-icons/blob/master/LICENSE).
+- Locale flags: [flag-icons](https://github.com/lipis/flag-icons) (MIT — see
+  `client/flags/FLAG-ICONS-LICENSE.txt`).
+
 ## License
 
-BSD-3-Clause.
+BSD-3-Clause (code). Bundled third-party assets keep their own licenses — see Credits above.

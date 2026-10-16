@@ -40,8 +40,10 @@
 
 /* Fluent locale badges are solid-filled — soften to a light tint + coloured text + outline. The tint is
  * opaque (not rgba) so it still masks any page title that runs under the absolutely-positioned badge,
- * exactly like the native solid badge does. Contrast: green 5.71, purple 7.38, red 6.29 (all AA; see the
- * opt-in high-contrast mode for AAA). */
+ * exactly like the native solid badge does. `--default` (localised here) reads green; `--localised`
+ * (content merely inherited from another locale) is muted grey with a dashed edge so it reads as a
+ * placeholder, not a real translation — no colour legend needed. Contrast: green 5.71, grey 6.0,
+ * red 6.29 (all AA; see the opt-in high-contrast mode for AAA). */
 .cms .badge.fluent-badge--default {
     background: #e0f1e0;
     color: #0a6b0a;
@@ -49,9 +51,9 @@
 }
 
 .cms .badge.fluent-badge--localised {
-    background: #ede2fd;
-    color: #5212c9;
-    border: 1px solid #660ff2;
+    background: #f0f0f0;
+    color: #595959;
+    border: 1px dashed #9a9a9a;
 }
 
 .cms .badge.fluent-badge--invisible {

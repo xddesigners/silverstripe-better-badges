@@ -20,8 +20,11 @@ class LeftAndMainExtension extends Extension
             Requirements::css($stylesheet);
         }
 
-        // Locale flags (opt-in) render via their own stylesheet, independent of the chosen style.
-        if (BetterBadges::localeFlagsEnabled()) {
+        // Locale marker (opt-in), independent of the chosen style: either the translatable icon or a
+        // country flag inside the Fluent locale badge. The icon wins if both are enabled.
+        if (BetterBadges::localeIconEnabled()) {
+            Requirements::css(BetterBadges::localeIconStylesheet());
+        } elseif (BetterBadges::localeFlagsEnabled()) {
             Requirements::css(BetterBadges::localeFlagStylesheet());
         }
 

@@ -41,8 +41,10 @@
 
 /* Fluent locale badges are solid-filled — soften to a light tint + coloured text + outline. The tint is
  * opaque (not rgba) so it still masks any page title that runs under the absolutely-positioned badge,
- * exactly like the native solid badge does. Contrast: green 5.71, purple 7.38, red 6.29 (all AA; see the
- * opt-in high-contrast mode for AAA). */
+ * exactly like the native solid badge does. `--default` (localised here) reads green; `--localised`
+ * (content merely inherited from another locale) is muted grey with a dashed edge so it reads as a
+ * placeholder, not a real translation — no colour legend needed. Contrast: green 5.71, grey 6.0,
+ * red 6.29 (all AA; see the opt-in high-contrast mode for AAA). */
 .cms .badge.fluent-badge--default {
     background: #e0f1e0;
     color: #0a6b0a;
@@ -50,13 +52,82 @@
 }
 
 .cms .badge.fluent-badge--localised {
-    background: #ede2fd;
-    color: #5212c9;
-    border: 1px solid #660ff2;
+    background: #f0f0f0;
+    color: #595959;
+    border: 1px dashed #9a9a9a;
 }
 
 .cms .badge.fluent-badge--invisible {
     background: #f3e5e5;
     color: #9b2828;
     border: 1px solid #9b2828;
+}
+
+/* Draft-only pages (Concept / status-addedtodraft) aren't live yet — set them apart from Modified
+ * (published, just changed) with the concept colour (sky blue); Modified keeps its orange attention
+ * colour. (Specificity mirrors the CMS per-view badge rules, like the blocks above.)
+ * Alternative concept palette kept on file — purple: badge #7a5389 on #f3ecf7, dot + title #8a639c. */
+.cms .cms-tree.jstree span.badge.status-addedtodraft,
+.cms .grid-field__table td.col-getTreeTitle span.badge.status-addedtodraft {
+    background: #e4f2fc;
+    color: #136ca5;
+}
+
+/* ...and recolour the native status dot on the page icon to sky blue, so the icon + badge tell one
+ * story (the CMS paints the dot orange like Modified by default). */
+.cms .cms-tree.jstree li.status-addedtodraft > a .jstree-recordicon::after {
+    background: #1a7fc2;
+    /* the CMS rings the dot with an inset orange shadow — recolour that ring too, keep the drop shadow. */
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 1px 0, #1a7fc2 0 0 0 1px inset;
+}
+
+/* Draft-only page title: italic — a distinction that needs no colour change, so it keeps its normal
+ * blue AA contrast while the sky-blue badge + dot carry the concept identity. (A distinct sky-blue
+ * title *colour* can't be both clearly different from the link blue and WCAG-AA, hence italic.) */
+.cms .cms-tree.jstree li > a:has(.badge.status-addedtodraft) > .text > .item,
+.cms .grid-field__table td.col-getTreeTitle:has(.badge.status-addedtodraft) a.action-detail {
+    font-style: italic;
+}
+
+/* ...but never the badge text — only the page title is italic. */
+.cms .grid-field__table td.col-getTreeTitle:has(.badge.status-addedtodraft) a.action-detail .badge {
+    font-style: normal;
+}
+
+/* Fluent's empty "no content in this locale" flag (status-fluentinvisible) can slip past the :empty
+ * guard in some views (a stray grey pill after "No source") — hide it outright. */
+.cms .cms-tree.jstree span.badge.status-fluentinvisible,
+.cms .grid-field__table td.col-getTreeTitle span.badge.status-fluentinvisible {
+    display: none;
+}
+
+/* Long titles: truncate with "…" instead of running under the badges. The row label becomes a small
+ * flex line — icon · title (shrinks, ellipsis) · badge(s) pinned right. Badges stay position:relative
+ * (not absolute) so they flow in the row yet still anchor the locale-flag ::before when flags are on. */
+.cms .cms-tree.jstree li > a > .text {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.cms .cms-tree.jstree li > a > .text > .item {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cms .cms-tree.jstree li > a > .text > span.badge {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex: 0 0 auto;
+}
+
+/* The locale-flag stylesheet nudges flag badges down 2px in the edit-view sidebar (centring the CMS's
+ * absolutely-positioned badges). In this flex row centring is align-items, so cancel that nudge or the
+ * flag badges sit 2px below the non-flag ones. (Specificity 0,7,3 beats flags.css's 0,6,1.) */
+.cms-content-tools .cms-tree.jstree li > a > .text > span.badge.fluent-badge.bb-flag {
+    top: 0;
 }

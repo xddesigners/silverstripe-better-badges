@@ -1,0 +1,102 @@
+/* better-badges — "locale icon" option (opt-in: BetterBadges.locale_icon / SS_BETTER_BADGES_LOCALE_ICON).
+ *
+ * Icon mode: each tree badge keeps its chip (background, border, state colour) but swaps its text for a
+ * small glyph — a compact, language-neutral marker, useful where the label text is long (German/Dutch).
+ * The SiteTreeLocaleFlagExtension stamps `bb-locale-icon` onto the badges; this stylesheet picks the
+ * glyph from the badge's own status class and tints it to the badge colour:
+ *   - Fluent locale badge                -> translate icon
+ *   - No source (status-removedfromdraft) -> ban icon
+ *   - Draft     (status-addedtodraft)     -> eye-off icon
+ *   - Modified  (status-modified)         -> pen icon
+ *
+ * Accessibility: the label text is only collapsed (font-size:0), so it stays in the DOM / a11y tree and
+ * the badge's title tooltip is untouched — screen readers still announce the state/locale. The glyph is
+ * a decorative ::before (not in the a11y tree).
+ *
+ * Loaded instead of the flags stylesheet (the two are mutually exclusive; see LeftAndMainExtension).
+ *
+ * Glyphs under client/img are Material Symbols (Google; Outlined, weight 600 — translate, block,
+ * visibility_off, edit_line), licensed Apache-2.0. See the module README for attribution. */
+
+/* Collapse the label text and tighten the chip. Mirror the per-view selectors so this beats the active
+ * style's size rules regardless of load order:
+ *   - edit-view tree (jstree):  style `…cms-tree.jstree span.badge` (0,4,1) -> ours (0,5,1)
+ *   - any GridField list:       style `…td.col-getTreeTitle span.badge[class*="status-"]` (0,5,2) -> ours (0,5,3)
+ * The list selector is column-agnostic (scoped on the row, `tr.ss-gridfield-item`), so it catches BOTH
+ * the page list-view (`col-getTreeTitle`) AND managed lists like Blog Posts (`col-Title`) — and clears
+ * the outline style's (0,5,2) rule, which every badge here matches (all carry a `status-*` class, incl.
+ * the locale badge's `status-fluent`). */
+.cms .cms-tree.jstree span.badge.bb-locale-icon,
+.cms .grid-field__table tr.ss-gridfield-item td span.badge.bb-locale-icon {
+    font-size: 0;
+    padding-left: 2px;
+    padding-right: 1px;
+}
+
+/* The edit-view sidebar normally collapses to the first badge; in icon mode the glyphs are tiny, so
+ * show them all — a page can be e.g. both modified (pen) and localised (translate). (Specificity 0,6,1
+ * beats the CMS's `…span.badge ~ .badge { display:none }` 0,5,1.) */
+.cms .cms-content-tools .cms-tree.jstree span.badge.bb-locale-icon {
+    display: inline-block;
+}
+
+/* List / tree-grid view: the inline badge is baseline-aligned, so a chip sits a few px low. Centre it
+ * on the title line, in any GridField list column. (The jstree edit-view tree centres via its flex row,
+ * so it ignores this.) */
+.cms .grid-field__table tr.ss-gridfield-item td span.badge.bb-locale-icon {
+    vertical-align: middle;
+}
+
+/* The glyph box: a mask tinted to the badge's own colour (`background-color: currentColor`), so it
+ * follows the state the way the text did. The per-type rules below set which glyph. */
+.cms .badge.bb-locale-icon::before {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    background-color: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+/* Locale badge -> translate icon. */
+.cms .badge.bb-locale-icon.fluent-badge::before {
+    -webkit-mask-image: url(../img/translate.svg);
+    mask-image: url(../img/translate.svg);
+}
+
+/* "No source" (no content in any locale) -> ban icon — distinct from the missing-locale badge's
+ * translate icon, so a page carrying both doesn't show two identical glyphs. */
+.cms .badge.bb-locale-icon.status-removedfromdraft::before {
+    -webkit-mask-image: url(../img/ban.svg);
+    mask-image: url(../img/ban.svg);
+}
+
+/* Draft (not yet published) -> eye-off icon. */
+.cms .badge.bb-locale-icon.status-addedtodraft::before {
+    -webkit-mask-image: url(../img/eye-slash.svg);
+    mask-image: url(../img/eye-slash.svg);
+}
+
+/* Modified (published, with unpublished changes) -> pen icon. */
+.cms .badge.bb-locale-icon.status-modified::before {
+    -webkit-mask-image: url(../img/pen.svg);
+    mask-image: url(../img/pen.svg);
+}
+
+/* Edit-view header (breadcrumb) badges keep their text, so the icon sits beside it: give it a small
+ * gap, nudge it onto the text's centre line, and tighten the chip padding. */
+.cms .badge.bb-locale-icon.badge--breadcrumbs {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.cms .badge.bb-locale-icon.badge--breadcrumbs::before {
+    margin-right: 3px;
+    vertical-align: -2px;
+}
