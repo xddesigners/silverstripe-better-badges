@@ -11,6 +11,10 @@ header/breadcrumb and the list/gridfield views.
 
 ![Badge styling options](docs/images/overview.png)
 
+*The styles above show the **text** badges. Out of the box the module shows **icon** badges instead
+(icon mode is on by default) — see [Locale icon](#locale-icon). Set `locale_icon: false` for the text
+badges shown here.*
+
 ## Requirements
 
 - `silverstripe/framework` ^6.0
@@ -109,21 +113,20 @@ subtags (`zh_Hans`) show no flag unless mapped.
 
 ## Locale icon
 
-An alternative to the flags: with [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent)
-installed, each badge can swap its **text for a small glyph** while keeping its chip (background, border
-and state colour). Handy where the label text is long or the tree is cramped. It's **opt-in**, off by
-default, and **mutually exclusive with `locale_flags`** (icon mode wins if both are on). Enable it in
-YAML:
+Icon mode is **on by default** (with the default `outline` style): each badge swaps its **text for a small
+glyph** while keeping its chip (background, border and state colour). Handy where the label text is long or
+the tree is cramped. It's **mutually exclusive with `locale_flags`** (icon mode wins if both are on). To
+turn it off and keep the plain text badges, in YAML:
 
 ```yaml
 XD\BetterBadges\BetterBadges:
-  locale_icon: true
+  locale_icon: false
 ```
 
 …or per environment from `.env` (takes precedence over the config):
 
 ```
-SS_BETTER_BADGES_LOCALE_ICON="1"
+SS_BETTER_BADGES_LOCALE_ICON="0"
 ```
 
 ![Icon mode (with the opt-in legend) in each badge style](docs/images/overview-icons.png)
@@ -147,25 +150,23 @@ Glyphs are [Material Symbols](https://fonts.google.com/icons) (Outlined, weight 
 visibility_off, edit_line), bundled under `client/img`. The "not translated" state uses a struck-through
 translate so it differs from "localised" by **shape, not colour alone** (WCAG 1.4.1).
 
-**Legend (opt-in).** In icon mode a sighted user sees only a glyph. Each badge keeps its screen-reader
-text and a `title` tooltip, but for an at-a-glance visual key you can switch on a small legend under the
-Pages header:
+**Legend.** In icon mode a sighted user sees only a glyph. Each badge keeps its screen-reader text and a
+`title` tooltip, and by default a small **legend** is shown at the foot of the edit-view page tree as an
+at-a-glance visual key (editors can dismiss it per session). It lists each icon with its label (localised;
+the locale states appear only when Fluent is installed). To switch it off entirely, in YAML:
 
 ```yaml
 XD\BetterBadges\BetterBadges:
-  locale_icon: true
-  locale_icon_legend: true
+  locale_icon_legend: false
 ```
 
-…or per environment:
+…or per environment (takes precedence over the config):
 
 ```
-SS_BETTER_BADGES_LOCALE_ICON_LEGEND="1"
+SS_BETTER_BADGES_LOCALE_ICON_LEGEND="0"
 ```
 
-It lists each icon with its label (localised; the locale states appear only when Fluent is installed),
-and has no effect unless `locale_icon` is on. The legend is off by default — set `locale_icon_legend: false`
-(or `SS_BETTER_BADGES_LOCALE_ICON_LEGEND="0"`, which takes precedence) to switch it off entirely.
+It only applies while `locale_icon` is on.
 
 ## Accessibility & high-contrast mode
 

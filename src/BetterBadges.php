@@ -122,15 +122,15 @@ class BetterBadges
         'xddesigners/silverstripe-better-badges:client/css/better-badges-flags.css';
 
     /**
-     * Opt-in: show Fluent's "translatable" icon inside each Fluent locale badge instead of the
-     * `xx_YY` code — a compact, language-neutral marker (handy where the code text is long, e.g. in
-     * German/Dutch). The badge keeps its state colour (localised / inherited / missing) and the code
-     * stays available to screen readers. Mutually exclusive with `locale_flags` (the icon wins).
-     * Enable in YAML (`locale_icon: true`) or per environment via `SS_BETTER_BADGES_LOCALE_ICON`.
+     * On by default (with the default `outline` style): show a compact, language-neutral glyph inside each
+     * badge instead of its text — handy where the label is long (e.g. German/Dutch). The badge keeps its
+     * state colour and the text stays available to screen readers. Mutually exclusive with `locale_flags`
+     * (the icon wins). Turn it off in YAML (`locale_icon: false`) or per environment via
+     * `SS_BETTER_BADGES_LOCALE_ICON="0"`.
      *
      * @config
      */
-    private static bool $locale_icon = false;
+    private static bool $locale_icon = true;
 
     /**
      * Environment variable that enables the locale icon when set truthy (overrides the config).
@@ -144,15 +144,15 @@ class BetterBadges
         'xddesigners/silverstripe-better-badges:client/css/better-badges-locale-icon.css';
 
     /**
-     * Opt-in: show a small legend/key in the Pages view naming what each locale icon means. In icon
+     * On by default: show a small legend/key in the Pages view naming what each locale icon means. In icon
      * mode a sighted user only sees a glyph; the accessible name (collapsed text + title tooltip) serves
      * screen-reader and hover, but not an at-a-glance visual label. The legend is that visible key. Only
-     * meaningful with `locale_icon` on. Enable in YAML (`locale_icon_legend: true`) or per environment
-     * via `SS_BETTER_BADGES_LOCALE_ICON_LEGEND`.
+     * meaningful with `locale_icon` on. Turn it off in YAML (`locale_icon_legend: false`) or per environment
+     * via `SS_BETTER_BADGES_LOCALE_ICON_LEGEND="0"`.
      *
      * @config
      */
-    private static bool $locale_icon_legend = false;
+    private static bool $locale_icon_legend = true;
 
     /**
      * Environment variable that enables the locale-icon legend when set truthy (overrides the config).
