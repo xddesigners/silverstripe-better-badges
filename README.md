@@ -140,7 +140,27 @@ both modified and localised). The label text is only visually collapsed — it s
 badge keeps its title tooltip, so screen readers still announce the state and locale.
 
 Glyphs are [Material Symbols](https://fonts.google.com/icons) (Outlined, weight 600 — translate, block,
-visibility_off, edit_line), bundled under `client/img`.
+visibility_off, edit_line), bundled under `client/img`. The "not translated" state uses a struck-through
+translate so it differs from "localised" by **shape, not colour alone** (WCAG 1.4.1).
+
+**Legend (opt-in).** In icon mode a sighted user sees only a glyph. Each badge keeps its screen-reader
+text and a `title` tooltip, but for an at-a-glance visual key you can switch on a small legend under the
+Pages header:
+
+```yaml
+XD\BetterBadges\BetterBadges:
+  locale_icon: true
+  locale_icon_legend: true
+```
+
+…or per environment:
+
+```
+SS_BETTER_BADGES_LOCALE_ICON_LEGEND="1"
+```
+
+It lists each icon with its label (localised; the locale states appear only when Fluent is installed),
+and has no effect unless `locale_icon` is on.
 
 ## Accessibility & high-contrast mode
 
@@ -165,7 +185,9 @@ The overlay loads in addition to the chosen style, so it layers on top of any of
 ## Credits
 
 - Locale-icon glyphs: [Material Symbols](https://fonts.google.com/icons) (Google) — licensed
-  [Apache-2.0](https://github.com/google/material-design-icons/blob/master/LICENSE).
+  [Apache-2.0](https://github.com/google/material-design-icons/blob/master/LICENSE); the "not translated"
+  glyph is [Material Design Icons](https://pictogrammers.com/library/mdi/) `translate-off` (Pictogrammers,
+  Apache-2.0), as Material Symbols has no translate-off.
 - Locale flags: [flag-icons](https://github.com/lipis/flag-icons) (MIT — see
   `client/flags/FLAG-ICONS-LICENSE.txt`).
 

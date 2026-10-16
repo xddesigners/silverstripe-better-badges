@@ -70,6 +70,16 @@
     mask-image: url(../img/translate.svg);
 }
 
+/* Not translated (no content in this locale — fluent-badge--invisible) -> translate-OFF (struck-through
+ * translate). The three locale states must not rely on colour alone (WCAG 1.4.1): "localised" (green) and
+ * "not translated" (red) otherwise share the identical translate glyph — the slash makes the difference a
+ * SHAPE cue. ("Inherited" / --localised keeps the plain glyph but is already set apart by its dashed
+ * border.) Placed after the rule above so it wins the tie for the --invisible badge. */
+.cms .badge.bb-locale-icon.fluent-badge--invisible::before {
+    -webkit-mask-image: url(../img/not-translated.svg);
+    mask-image: url(../img/not-translated.svg);
+}
+
 /* "No source" (no content in any locale) -> ban icon — distinct from the missing-locale badge's
  * translate icon, so a page carrying both doesn't show two identical glyphs. */
 .cms .badge.bb-locale-icon.status-removedfromdraft::before {

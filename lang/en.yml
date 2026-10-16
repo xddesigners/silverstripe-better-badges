@@ -1,0 +1,9 @@
+en:
+  XD\BetterBadges\BetterBadges:
+    LEGEND_TITLE: 'Legend:'
+    LEGEND_LOCALISED: 'Localised'
+    LEGEND_INHERITED: 'Inherited'
+    LEGEND_NOT_TRANSLATED: 'Not translated'
+    LEGEND_NO_SOURCE: 'No source'
+    LEGEND_DRAFT: 'Draft'
+    LEGEND_MODIFIED: 'Modified'

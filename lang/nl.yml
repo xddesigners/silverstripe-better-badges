@@ -1,0 +1,9 @@
+nl:
+  XD\BetterBadges\BetterBadges:
+    LEGEND_TITLE: 'Legenda:'
+    LEGEND_LOCALISED: 'Vertaald'
+    LEGEND_INHERITED: 'Overgeërfd'
+    LEGEND_NOT_TRANSLATED: 'Niet vertaald'
+    LEGEND_NO_SOURCE: 'Geen bron'
+    LEGEND_DRAFT: 'Concept'
+    LEGEND_MODIFIED: 'Gewijzigd'

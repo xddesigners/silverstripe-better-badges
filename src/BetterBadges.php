@@ -137,6 +137,31 @@ class BetterBadges
         'xddesigners/silverstripe-better-badges:client/css/better-badges-locale-icon.css';
 
     /**
+     * Opt-in: show a small legend/key in the Pages view naming what each locale icon means. In icon
+     * mode a sighted user only sees a glyph; the accessible name (collapsed text + title tooltip) serves
+     * screen-reader and hover, but not an at-a-glance visual label. The legend is that visible key. Only
+     * meaningful with `locale_icon` on. Enable in YAML (`locale_icon_legend: true`) or per environment
+     * via `SS_BETTER_BADGES_LOCALE_ICON_LEGEND`.
+     *
+     * @config
+     */
+    private static bool $locale_icon_legend = false;
+
+    /**
+     * Environment variable that enables the locale-icon legend when set truthy (overrides the config).
+     */
+    public const LOCALE_ICON_LEGEND_ENV_VAR = 'SS_BETTER_BADGES_LOCALE_ICON_LEGEND';
+
+    /**
+     * Stylesheet + script that render the legend.
+     */
+    private const LOCALE_ICON_LEGEND_STYLESHEET =
+        'xddesigners/silverstripe-better-badges:client/css/better-badges-legend.css';
+
+    private const LOCALE_ICON_LEGEND_SCRIPT =
+        'xddesigners/silverstripe-better-badges:client/js/better-badges-legend.js';
+
+    /**
      * Opt-in high-contrast mode: pushes the Fluent locale badges to WCAG AAA (darker text on a light
      * tint). Loaded in addition to the active style. Enable in YAML (`high_contrast: true`) or per
      * environment via `SS_BETTER_BADGES_HIGH_CONTRAST`.
@@ -234,6 +259,55 @@ class BetterBadges
     public static function localeIconStylesheet(): string
     {
         return self::LOCALE_ICON_STYLESHEET;
+    }
+
+    /**
+     * Whether the locale-icon legend is enabled. Only when the icon mode is on, then the
+     * `SS_BETTER_BADGES_LOCALE_ICON_LEGEND` env var when set, otherwise the `locale_icon_legend` config.
+     */
+    public static function localeIconLegendEnabled(): bool
+    {
+        if (!self::localeIconEnabled()) {
+            return false;
+        }
+        $env = Environment::getEnv(self::LOCALE_ICON_LEGEND_ENV_VAR);
+        if ($env !== false && trim((string) $env) !== '') {
+            return in_array(strtolower(trim((string) $env)), ['1', 'true', 'on', 'yes'], true);
+        }
+        return (bool) static::config()->get('locale_icon_legend');
+    }
+
+    /**
+     * The legend stylesheet / script.
+     */
+    public static function localeIconLegendStylesheet(): string
+    {
+        return self::LOCALE_ICON_LEGEND_STYLESHEET;
+    }
+
+    public static function localeIconLegendScript(): string
+    {
+        return self::LOCALE_ICON_LEGEND_SCRIPT;
+    }
+
+    /**
+     * The legend rows (badge class + localised label) describing each locale icon. The Fluent locale
+     * states are only listed when Fluent is installed; the native Draft/Modified markers always apply.
+     *
+     * @return array<int, array{cls: string, label: string}>
+     */
+    public static function legendItems(): array
+    {
+        $items = [];
+        if (class_exists(\TractorCow\Fluent\Model\Locale::class)) {
+            $items[] = ['cls' => 'fluent-badge fluent-badge--default', 'label' => _t(self::class . '.LEGEND_LOCALISED', 'Localised')];
+            $items[] = ['cls' => 'fluent-badge fluent-badge--localised', 'label' => _t(self::class . '.LEGEND_INHERITED', 'Inherited')];
+            $items[] = ['cls' => 'fluent-badge fluent-badge--invisible', 'label' => _t(self::class . '.LEGEND_NOT_TRANSLATED', 'Not translated')];
+            $items[] = ['cls' => 'status-removedfromdraft', 'label' => _t(self::class . '.LEGEND_NO_SOURCE', 'No source')];
+        }
+        $items[] = ['cls' => 'status-addedtodraft', 'label' => _t(self::class . '.LEGEND_DRAFT', 'Draft')];
+        $items[] = ['cls' => 'status-modified', 'label' => _t(self::class . '.LEGEND_MODIFIED', 'Modified')];
+        return $items;
     }
 
     /**

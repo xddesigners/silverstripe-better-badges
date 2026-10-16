@@ -1,0 +1,88 @@
+/* better-badges — locale-icon legend (opt-in: locale_icon_legend / SS_BETTER_BADGES_LOCALE_ICON_LEGEND).
+ *
+ * A compact key under the Pages header naming each locale icon, so the meaning is available to sighted
+ * users at a glance — not only through the hover tooltip / screen-reader text that the badges already
+ * carry. Addresses WCAG "icons need a visible, understandable label" guidance for the opt-in icon mode.
+ * Only loaded alongside better-badges-locale-icon.css (which provides the ::before glyph masks reused
+ * here), and only when the legend is enabled. The row is built by better-badges-legend.js. */
+
+.cms .bb-locale-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px 16px;
+    margin: 0;
+    padding: 9px 16px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #3b4a5a;
+    background: #eef2f6;
+    border-top: 1px solid #d5dce3;
+    border-bottom: 1px solid #d5dce3;
+}
+
+.cms .bb-locale-legend__title {
+    font-weight: 700;
+    margin-right: 4px;
+    color: #2a3744;
+}
+
+.cms .bb-locale-legend__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+/* The swatch reuses a real badge chip, so its ::before glyph + mask come straight from the icon
+ * stylesheet. Tighten it to an icon-only chip (no label text inside — the label sits beside it). The
+ * chip carries no text, so Bootstrap's `.badge:empty { display:none }` (and our own
+ * `[class*="status-"]:empty` rule) would hide it — force it back on, at 0,5,0 to clear both. */
+.cms .bb-locale-legend .bb-locale-legend__item .badge.bb-locale-icon {
+    display: inline-block;
+    margin: 0;
+    padding: 1px 4px;
+    font-size: 0;
+    line-height: 1;
+    vertical-align: middle;
+    border-radius: 4px;
+}
+
+/* Pin the exact per-state colours. Most come through from the global style rules, but the tree's draft
+ * sky-blue and the list tints are context-scoped, so without this the legend swatch would fall back to
+ * the CMS defaults. Values mirror the rendered badges (outline style). */
+.cms .bb-locale-legend .badge.fluent-badge--default {
+    background: #e0f1e0;
+    color: #0a6b0a;
+    border: 1px solid #1a9a1a;
+}
+
+.cms .bb-locale-legend .badge.fluent-badge--localised {
+    background: #f0f0f0;
+    color: #595959;
+    border: 1px dashed #9a9a9a;
+}
+
+.cms .bb-locale-legend .badge.fluent-badge--invisible {
+    background: #f3e5e5;
+    color: #9b2828;
+    border: 1px solid #9b2828;
+}
+
+.cms .bb-locale-legend .badge.status-removedfromdraft {
+    background: #f1f3f6;
+    color: #455b6c;
+    border: 1px solid #455b6c;
+}
+
+.cms .bb-locale-legend .badge.status-addedtodraft {
+    background: #e4f2fc;
+    color: #136ca5;
+    border: 1px solid #136ca5;
+}
+
+.cms .bb-locale-legend .badge.status-modified {
+    background: #ffede0;
+    color: #c23a00;
+    border: 1px solid #c23a00;
+}
