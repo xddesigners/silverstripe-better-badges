@@ -126,14 +126,18 @@ XD\BetterBadges\BetterBadges:
 SS_BETTER_BADGES_LOCALE_ICON="1"
 ```
 
+![Icon mode (with the opt-in legend) in each badge style](docs/images/overview-icons.png)
+
 Each badge picks its glyph from its own state and tints it to the badge colour:
 
 | Badge | Glyph |
 | --- | --- |
-| Locale (translation) | translate |
-| No source | ban |
-| Draft | eye-slash |
-| Modified | pen |
+| Localised | translate |
+| Inherited | equal |
+| Not translated | translate-off (struck-through translate) |
+| No source | block |
+| Draft | visibility-off |
+| Modified | edit-line |
 
 The locale glyph stays **rightmost**, and in the edit-view sidebar all glyphs show (a page can be e.g.
 both modified and localised). The label text is only visually collapsed — it stays in the DOM and the
@@ -160,7 +164,8 @@ SS_BETTER_BADGES_LOCALE_ICON_LEGEND="1"
 ```
 
 It lists each icon with its label (localised; the locale states appear only when Fluent is installed),
-and has no effect unless `locale_icon` is on.
+and has no effect unless `locale_icon` is on. The legend is off by default — set `locale_icon_legend: false`
+(or `SS_BETTER_BADGES_LOCALE_ICON_LEGEND="0"`, which takes precedence) to switch it off entirely.
 
 ## Accessibility & high-contrast mode
 
