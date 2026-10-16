@@ -124,5 +124,6 @@
     font-size: 0;
     line-height: 1;
     vertical-align: middle;
-    border-radius: 4px;
+    /* border-radius is left to the active style (4px on outline/compact, 11px pill on the pill styles) so
+       the swatch follows the badge shape. */
 }

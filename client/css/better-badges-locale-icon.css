@@ -38,6 +38,31 @@
     display: inline-block;
 }
 
+/* Lay the tree badges out inline so several show side by side. The native CMS positions them absolutely
+ * (assuming a single badge), so in styles without the outline treatment (pill / compact) multiple badges
+ * would stack and overlap — only the top one visible. This mirrors the outline style's row layout and,
+ * living in the icon stylesheet, applies in icon mode for EVERY style. */
+.cms .cms-tree.jstree li > a > .text {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.cms .cms-tree.jstree li > a > .text > .item {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cms .cms-tree.jstree li > a > .text > span.badge {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex: 0 0 auto;
+}
+
 /* GridField lists keep the full badge (chip + the xx_YY / status text); the glyph sits before that text,
  * so give it a gap and drop it onto the text's centre line — same treatment as the breadcrumb badges. */
 .cms .grid-field__table span.badge.bb-locale-icon::before {
