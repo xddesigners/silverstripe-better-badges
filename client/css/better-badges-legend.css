@@ -19,7 +19,9 @@
     gap: 6px 14px;
     margin: 0;
     min-height: 53px; /* line up with the nav / panel south toolbar at the bottom of the screen */
-    padding: 8px 30px 8px 16px; /* extra right padding reserves space for the dismiss button */
+    /* left 20px lines the items up with the "Add new Page" button / toolbar; right 30px reserves space
+       for the dismiss button. */
+    padding: 8px 30px 8px 20px;
     font-size: 12px;
     line-height: 1.35;
     color: var(--bs-body-color);
